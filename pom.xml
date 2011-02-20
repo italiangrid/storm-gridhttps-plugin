@@ -14,6 +14,98 @@
 					<debug>true</debug>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.2-beta-2</version>
+				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<finalName>${project.artifactId}-${project.version}</finalName>
+					<descriptors>
+						<descriptor>assembly/deploy.xml</descriptor>
+					</descriptors>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>rpm-maven-plugin</artifactId>
+				<version>2.1-alpha-1</version>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>rpm</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<name>${project.artifactId}</name>
+					<version>${project.version}</version>
+					<copyright>Apache License, Version 2.0. See included file
+						LICENSE.txt</copyright>
+					<group>Application/Generic</group>
+					<mappings>
+						<mapping>
+							<directory>/usr/share/java</directory>
+							<artifact>
+								<!--								<classifiers>-->
+								<!--
+									<classifier>it.grid.storm:storm-gridhttps-plugin</classifier>
+								-->
+								<!--								</classifiers>-->
+							</artifact>
+<dependency/>
+							<!--							<dependency>-->
+							<!--								<includes>-->
+							<!--									<include>org.apache.httpcomponents:httpclient</include>-->
+							<!--									<include>org.apache.httpcomponents:httpcore</include>-->
+							<!--								</includes>-->
+							<!--								<excludes>-->
+							<!--									<exclude></exclude>-->
+							<!--									<exclude>org.apache.httpcomponents:httpcore</exclude>-->
+							<!--								</excludes>-->
+							<!--							</dependency>-->
+
+							<!--							<sources>-->
+							<!--								<source>-->
+							<!--
+								<location>${basedir}/../gridhttps_common/target</location>
+							-->
+							<!--									<includes>-->
+							<!--										<include>*.jar</include>-->
+							<!--									</includes>-->
+							<!--								</source>-->
+							<!--								<source>-->
+							<!--
+								<location>${basedir}/../gridhttps_filter/target</location>
+							-->
+							<!--									<includes>-->
+							<!--										<include>*.jar</include>-->
+							<!--									</includes>-->
+							<!--								</source>-->
+							<!--								<source>-->
+							<!--
+								<location>${basedir}/../gridhttps_webapp/target</location>
+							-->
+							<!--									<includes>-->
+							<!--										<include>*.war</include>-->
+							<!--									</includes>-->
+							<!--								</source>-->
+							<!--							</sources>-->
+						</mapping>
+					</mappings>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
@@ -22,6 +114,16 @@
 			<artifactId>httpclient</artifactId>
 			<version>4.1</version>
 			<type>jar</type>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>commons-codec</artifactId>
+					<groupId>commons-codec</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>it.grid.storm</groupId>
@@ -35,14 +137,14 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>1.5.6</version>
 			<type>jar</type>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>commons-configuration</groupId>
 			<artifactId>commons-configuration</artifactId>
 			<version>1.6</version>
 			<type>jar</type>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>
