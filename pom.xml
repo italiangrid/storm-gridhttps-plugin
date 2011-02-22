@@ -51,57 +51,13 @@
 				<configuration>
 					<name>${project.artifactId}</name>
 					<version>${project.version}</version>
-					<copyright>Apache License, Version 2.0. See included file
-						LICENSE.txt</copyright>
+					<copyright>Apache License, Version 2.0. See included file LICENSE.txt</copyright>
 					<group>Application/Generic</group>
 					<mappings>
 						<mapping>
 							<directory>/usr/share/java</directory>
-							<artifact>
-								<!--								<classifiers>-->
-								<!--
-									<classifier>it.grid.storm:storm-gridhttps-plugin</classifier>
-								-->
-								<!--								</classifiers>-->
-							</artifact>
-<dependency/>
-							<!--							<dependency>-->
-							<!--								<includes>-->
-							<!--									<include>org.apache.httpcomponents:httpclient</include>-->
-							<!--									<include>org.apache.httpcomponents:httpcore</include>-->
-							<!--								</includes>-->
-							<!--								<excludes>-->
-							<!--									<exclude></exclude>-->
-							<!--									<exclude>org.apache.httpcomponents:httpcore</exclude>-->
-							<!--								</excludes>-->
-							<!--							</dependency>-->
-
-							<!--							<sources>-->
-							<!--								<source>-->
-							<!--
-								<location>${basedir}/../gridhttps_common/target</location>
-							-->
-							<!--									<includes>-->
-							<!--										<include>*.jar</include>-->
-							<!--									</includes>-->
-							<!--								</source>-->
-							<!--								<source>-->
-							<!--
-								<location>${basedir}/../gridhttps_filter/target</location>
-							-->
-							<!--									<includes>-->
-							<!--										<include>*.jar</include>-->
-							<!--									</includes>-->
-							<!--								</source>-->
-							<!--								<source>-->
-							<!--
-								<location>${basedir}/../gridhttps_webapp/target</location>
-							-->
-							<!--									<includes>-->
-							<!--										<include>*.war</include>-->
-							<!--									</includes>-->
-							<!--								</source>-->
-							<!--							</sources>-->
+							<artifact></artifact>
+							<dependency/>
 						</mapping>
 					</mappings>
 				</configuration>
