@@ -8,22 +8,14 @@
 
 	<fileSets>
 		<fileSet>
-			<directory>target</directory>
-			<outputDirectory>/usr/share/java</outputDirectory>
-			<includes>
-				<include>*.jar</include>
-			</includes>
+			<directory>etc</directory>
+			<outputDirectory>/etc</outputDirectory>
 		</fileSet>
 	</fileSets>
 
 	<dependencySets>
 		<dependencySet>
-			<outputDirectory>/usr/share/java</outputDirectory>
-<!--			<excludes>-->
-<!--				<exclude>it.grid.storm:gridhttps_filter</exclude>-->
-<!--				<exclude>it.grid.storm:gridhttps_common</exclude>-->
-<!--				<exclude>it.grid.storm:gridhttps_webapp</exclude>-->
-<!--			</excludes>-->
+			<outputDirectory>${jar_installation_prefix}/${artifactId}</outputDirectory>
 		</dependencySet>
 	</dependencySets>
 </assembly>

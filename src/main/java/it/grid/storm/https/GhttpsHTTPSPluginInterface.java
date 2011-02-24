@@ -1,20 +1,17 @@
 /*
- *
- *  Copyright (c) Istituto Nazionale di Fisica Nucleare (INFN). 2006-2010.
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * Copyright (c) Istituto Nazionale di Fisica Nucleare (INFN). 2006-2010.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package it.grid.storm.https;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -47,31 +44,22 @@ import it.grid.storm.https.remotecall.MapperServiceConstants;
 
 /**
  * @author Michele Dibenedetto
- *
  */
 public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
 {
 
+
     private final Logger log = LoggerFactory.getLogger(GhttpsHTTPSPluginInterface.class);
-    
     private String serverHost;
-    
     private int serverPort;
-    
-    private int serverUserUID; 
-    
+    private int serverUserUID;
     private int serverUserGID;
-    
-    private LocalUser serverLocalUser; 
+    private LocalUser serverLocalUser;
+
 
     public GhttpsHTTPSPluginInterface() throws InstantiationException
     {
-        String stormHome = System.getenv(GridHttpsServiceConstants.STORM_HOME_VARIABLE);
-        if (stormHome == null || stormHome.equals(""))
-        {
-            stormHome = GridHttpsServiceConstants.DEFAULT_STORM_HOME;
-        }
-        String configurationFilePath = stormHome + GridHttpsServiceConstants.CONFIGURATION_FILE_RELATIVE_PATH + File.separatorChar
+        String configurationFilePath = GridHttpsServiceConstants.CONFIGURATION_FILE_LOCATION_PATH + File.separatorChar
                 + GridHttpsServiceConstants.CONFIGURATION_FILE_NAME;
         try
         {
@@ -79,9 +67,8 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
         }
         catch (ConfigurationException e)
         {
-            //TODO
-            log.error("");
-            throw new  InstantiationException();
+            log.error("Unable to initialize the Configurator object! ConfigurationException: " + e.getMessage());
+            throw new InstantiationException("Error during Configurator initialization");
         }
         try
         {
@@ -92,114 +79,132 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
         }
         catch (ConfigurationException e)
         {
-            //TODO
-            log.error("");
-            throw new  InstantiationException();
+            log.error("Unable to get all the mandatory configuration parameters. ConfigurationException: " + e.getMessage());
+            throw new InstantiationException("Error during mandatory configuration parameters retrieving");
         }
         setLocaUser();
     }
-    
+
+
     private void setLocaUser()
     {
         serverLocalUser = new LocalUser(serverUserUID, serverUserGID);
     }
 
-    /* (non-Javadoc)
-     * @see it.grid.storm.https.HTTPSPluginInterface#grantGroupPermission(it.grid.storm.filesystem.LocalFile, it.grid.storm.griduser.LocalUser, it.grid.storm.filesystem.FilesystemPermission)
+
+    /*
+     * (non-Javadoc)
+     * @see it.grid.storm.https.HTTPSPluginInterface#grantGroupPermission(it.grid.storm.filesystem.LocalFile,
+     * it.grid.storm.griduser.LocalUser, it.grid.storm.filesystem.FilesystemPermission)
      */
     @Override
     public void grantGroupPermission(LocalFile localFile, LocalUser localUser, FilesystemPermission permission)
     {
         localFile.grantGroupPermission(serverLocalUser, permission);
-//        log.info("Granted group permission " + permission.toString() +  " on file " + localFile.toString() + " to group " + localUser.toString());
+// log.info("Granted group permission " + permission.toString() + " on file " + localFile.toString() + " to group " + localUser.toString());
     }
 
-    /* (non-Javadoc)
-     * @see it.grid.storm.https.HTTPSPluginInterface#grantUserPermission(it.grid.storm.filesystem.LocalFile, it.grid.storm.griduser.LocalUser, it.grid.storm.filesystem.FilesystemPermission)
+
+    /*
+     * (non-Javadoc)
+     * @see it.grid.storm.https.HTTPSPluginInterface#grantUserPermission(it.grid.storm.filesystem.LocalFile,
+     * it.grid.storm.griduser.LocalUser, it.grid.storm.filesystem.FilesystemPermission)
      */
     @Override
     public void grantUserPermission(LocalFile localFile, LocalUser localUser, FilesystemPermission permission)
     {
         localFile.grantUserPermission(serverLocalUser, permission);
-//        log.info("Granted user permission " + permission.toString() +  " on file " + localFile.toString() + " to user " + localUser.toString());
-
+// log.info("Granted user permission " + permission.toString() + " on file " + localFile.toString() + " to user " + localUser.toString());
     }
 
-    /* (non-Javadoc)
-     * @see it.grid.storm.https.HTTPSPluginInterface#removeGroupPermission(it.grid.storm.filesystem.LocalFile, it.grid.storm.griduser.LocalUser)
+
+    /*
+     * (non-Javadoc)
+     * @see it.grid.storm.https.HTTPSPluginInterface#removeGroupPermission(it.grid.storm.filesystem.LocalFile,
+     * it.grid.storm.griduser.LocalUser)
      */
     @Override
     public void removeGroupPermission(LocalFile localFile, LocalUser localUser)
     {
         localFile.removeGroupPermission(serverLocalUser);
-//        log.info("Removed group permission from file " + localFile.toString() + " to group " + localUser.toString());
-
+// log.info("Removed group permission from file " + localFile.toString() + " to group " + localUser.toString());
     }
 
-    /* (non-Javadoc)
-     * @see it.grid.storm.https.HTTPSPluginInterface#removeUserPermission(it.grid.storm.filesystem.LocalFile, it.grid.storm.griduser.LocalUser)
+
+    /*
+     * (non-Javadoc)
+     * @see it.grid.storm.https.HTTPSPluginInterface#removeUserPermission(it.grid.storm.filesystem.LocalFile,
+     * it.grid.storm.griduser.LocalUser)
      */
     @Override
     public void removeUserPermission(LocalFile localFile, LocalUser localUser)
     {
         localFile.removeUserPermission(serverLocalUser);
-//        log.info("Removed user permission from file " + localFile.toString() + " to user " + localUser.toString());
-
+// log.info("Removed user permission from file " + localFile.toString() + " to user " + localUser.toString());
     }
 
-    /* (non-Javadoc)
-     * @see it.grid.storm.https.HTTPSPluginInterface#revokeGroupPermission(it.grid.storm.filesystem.LocalFile, it.grid.storm.griduser.LocalUser, it.grid.storm.filesystem.FilesystemPermission)
+
+    /*
+     * (non-Javadoc)
+     * @see it.grid.storm.https.HTTPSPluginInterface#revokeGroupPermission(it.grid.storm.filesystem.LocalFile,
+     * it.grid.storm.griduser.LocalUser, it.grid.storm.filesystem.FilesystemPermission)
      */
     @Override
-    public void revokeGroupPermission(LocalFile localFile, LocalUser localUser,
-            FilesystemPermission permission)
+    public void revokeGroupPermission(LocalFile localFile, LocalUser localUser, FilesystemPermission permission)
     {
         localFile.revokeGroupPermission(serverLocalUser, permission);
-//        log.info("Revoked group permission " + permission.toString() +  " from file " + localFile.toString() + " to group " + localUser.toString());
-
+// log.info("Revoked group permission " + permission.toString() + " from file " + localFile.toString() + " to group " +
+        // localUser.toString());
     }
 
-    /* (non-Javadoc)
-     * @see it.grid.storm.https.HTTPSPluginInterface#revokeUserPermission(it.grid.storm.filesystem.LocalFile, it.grid.storm.griduser.LocalUser, it.grid.storm.filesystem.FilesystemPermission)
+
+    /*
+     * (non-Javadoc)
+     * @see it.grid.storm.https.HTTPSPluginInterface#revokeUserPermission(it.grid.storm.filesystem.LocalFile,
+     * it.grid.storm.griduser.LocalUser, it.grid.storm.filesystem.FilesystemPermission)
      */
     @Override
     public void revokeUserPermission(LocalFile localFile, LocalUser localUser, FilesystemPermission permission)
     {
         localFile.revokeUserPermission(serverLocalUser, permission);
-//        log.info("Revoked user permission " + permission.toString() +  " from file " + localFile.toString() + " to user " + localUser.toString());
-
+// log.info("Revoked user permission " + permission.toString() + " from file " + localFile.toString() + " to user " + localUser.toString());
     }
 
-    /* (non-Javadoc)
-     * @see it.grid.storm.https.HTTPSPluginInterface#setGroupPermission(it.grid.storm.filesystem.LocalFile, it.grid.storm.griduser.LocalUser, it.grid.storm.filesystem.FilesystemPermission)
+
+    /*
+     * (non-Javadoc)
+     * @see it.grid.storm.https.HTTPSPluginInterface#setGroupPermission(it.grid.storm.filesystem.LocalFile,
+     * it.grid.storm.griduser.LocalUser, it.grid.storm.filesystem.FilesystemPermission)
      */
     @Override
     public void setGroupPermission(LocalFile localFile, LocalUser localUser, FilesystemPermission permission)
     {
         localFile.setGroupPermission(serverLocalUser, permission);
-//        log.info("Setted group permission " + permission.toString() +  " on file " + localFile.toString() + " to group " + localUser.toString());
-
+// log.info("Setted group permission " + permission.toString() + " on file " + localFile.toString() + " to group " + localUser.toString());
     }
 
-    /* (non-Javadoc)
-     * @see it.grid.storm.https.HTTPSPluginInterface#setUserPermission(it.grid.storm.filesystem.LocalFile, it.grid.storm.griduser.LocalUser, it.grid.storm.filesystem.FilesystemPermission)
+
+    /*
+     * (non-Javadoc)
+     * @see it.grid.storm.https.HTTPSPluginInterface#setUserPermission(it.grid.storm.filesystem.LocalFile, it.grid.storm.griduser.LocalUser,
+     * it.grid.storm.filesystem.FilesystemPermission)
      */
     @Override
     public void setUserPermission(LocalFile localFile, LocalUser localUser, FilesystemPermission permission)
     {
         localFile.setUserPermission(serverLocalUser, permission);
-//        log.info("Setted user permission " + permission.toString() +  " on file " + localFile.toString() + " to user " + localUser.toString());
-
+// log.info("Setted user permission " + permission.toString() + " on file " + localFile.toString() + " to user " + localUser.toString());
     }
+
 
     @Override
     public void removeAllPermissions(LocalFile localFile)
     {
         localFile.removeGroupPermission(serverLocalUser);
         localFile.removeUserPermission(serverLocalUser);
-//        log.info("Removing all permissions from file " + localFile.toString());
-        
+// log.info("Removing all permissions from file " + localFile.toString());
     }
+
 
     @Override
     public void moveAllPermissions(LocalFile fromLocalFile, LocalFile toLocalFile)
@@ -208,28 +213,38 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
         FilesystemPermission groupPermission = fromLocalFile.getGroupPermission(serverLocalUser);
         toLocalFile.grantUserPermission(serverLocalUser, userPermission);
         toLocalFile.grantGroupPermission(serverLocalUser, groupPermission);
-//        log.info("Moving all permissions from file " + fromLocalFile.toString() + " to file " + toLocalFile.toString());
-        
+// log.info("Moving all permissions from file " + fromLocalFile.toString() + " to file " + toLocalFile.toString());
     }
 
+
+    /* (non-Javadoc)
+     * @see it.grid.storm.https.HTTPSPluginInterface#getServiceHost()
+     */
     @Override
     public String getServiceHost()
     {
-//        log.info("Gettin service host \'localhost\'");
+// log.info("Gettin service host \'localhost\'");
         return serverHost;
     }
 
+
+    /* (non-Javadoc)
+     * @see it.grid.storm.https.HTTPSPluginInterface#getServicePort()
+     */
     @Override
     public Integer getServicePort()
     {
-//        log.info("Gettin service port \'12345\'");
+// log.info("Gettin service port \'12345\'");
         return new Integer(serverPort);
     }
 
+
+    /* (non-Javadoc)
+     * @see it.grid.storm.https.HTTPSPluginInterface#MapLocalPath(java.lang.String)
+     */
     @Override
     public String MapLocalPath(String localAbsolutePath) throws HTTPSPluginException
     {
-        
         URI uri = buildMapperServiceUri(localAbsolutePath);
         System.out.println("INFO: Mapping Service call uri = " + uri.toString());
         HttpGet httpget = new HttpGet(uri);
@@ -308,9 +323,15 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
         }
         String URLPath = decodeHttpsPath(output);
         log.info("Mapping local absolute path \'" + localAbsolutePath + "\' to \'" + URLPath + "\'");
-        return  URLPath;
+        return URLPath;
     }
-    
+
+
+    /**
+     * @param localAbsolutePath
+     * @return
+     * @throws HTTPSPluginException
+     */
     private URI buildMapperServiceUri(String localAbsolutePath) throws HTTPSPluginException
     {
         System.out.println("DEBUG: encoding parameters");

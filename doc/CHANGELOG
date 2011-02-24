@@ -1,0 +1,6 @@
+* Fri Feb 23 2011 <Michele Dibenedetto> <michele.dibenedetto@cnaf.infn.it>
+- version %{version}-%{release} 
+-the storm-gridhhtps-plugin is responsible of make available storm-gridhttps-server functionalities to storm-backend-server
+-this package implements the HTTPSPluginInterface Java interface provided by storm-backend-server
+-its jar and dependencies has to be available to storm-backend-server classpath
+-it interacts with storm-gridhttps-server using the servlet interface that it provides. Current version is compliant with storm-gridhttps-server servlet interface version 1.0.0

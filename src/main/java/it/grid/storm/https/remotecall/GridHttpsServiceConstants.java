@@ -12,18 +12,14 @@
  */
 package it.grid.storm.https.remotecall;
 
+
 /**
  * @author Michele Dibenedetto
  */
 public class GridHttpsServiceConstants
 {
 
-    public static final String STORM_HOME_VARIABLE = "STORM_HOME";
-    
-    public static final String DEFAULT_STORM_HOME = "/opt/storm/backend";
-    
-    public static final String CONFIGURATION_FILE_RELATIVE_PATH = "/etc";
-    
-    public static final String CONFIGURATION_FILE_NAME = "storm.plugin.properties";
 
+    public static final String CONFIGURATION_FILE_LOCATION_PATH = "/etc";
+    public static final String CONFIGURATION_FILE_NAME = "storm.plugin.properties";
 }

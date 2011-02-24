@@ -29,7 +29,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<finalName>${project.artifactId}-${project.version}</finalName>
+					<finalName>${project.artifactId}-${project.version}-${build_age}</finalName>
 					<descriptors>
 						<descriptor>assembly/deploy.xml</descriptor>
 					</descriptors>
@@ -51,20 +51,65 @@
 				<configuration>
 					<name>${project.artifactId}</name>
 					<version>${project.version}</version>
+					<release>${build_age}</release>
+					<needarch>${build_platform}</needarch>
+					<summary>The StoRM GridHTTPS component</summary>
 					<copyright>Apache License, Version 2.0. See included file LICENSE.txt</copyright>
+					<url>http://storm.forge.cnaf.infn.it</url>
+					<vendor>INFN - CNAF (2011)</vendor>
 					<group>Application/Generic</group>
+					<packager>Michele Dibenedetto storm-support@lists.infn.it</packager>
+					<changelogFile>doc/CHANGELOG</changelogFile>
+<!--Release: %{age}.%{distribution}-->
 					<mappings>
 						<mapping>
-							<directory>/usr/share/java</directory>
-							<artifact></artifact>
+							<directory>${jar_installation_prefix}/${project.artifactId}</directory>
+							<artifact>
+								<classifiers>
+									<classifier></classifier>
+								</classifiers>
+							</artifact>
 							<dependency/>
 						</mapping>
+						<mapping>
+							<directory>/etc</directory>
+							<sources>
+								<source>
+									<location>etc</location>
+								</source>
+							</sources>
+						</mapping>
+						<mapping>
+							<directory>${doc_installation_prefix}/${project.artifactId}</directory>
+							<sources>
+								<source>
+									<location>./LICENSE.txt</location>
+								</source>
+							</sources>
+						</mapping>
 					</mappings>
+					<requires>
+						<require>storm-backend-server</require>
+<!--					Here the dependency to the chosen jdk/jre must be added -->
+					</requires>
+					<postinstallScriptlet>
+						<scriptFile>src/main/bin/postinstall.sh</scriptFile>
+    					<fileEncoding>utf-8</fileEncoding>					
+					</postinstallScriptlet>
+					<preremoveScriptlet>
+						<scriptFile>src/main/bin/preremove.sh</scriptFile>
+					</preremoveScriptlet>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
+<!--	this is the SL5 version-->
+<!--		<dependency>-->
+<!--			<groupId>commons-httpclient</groupId>-->
+<!--			<artifactId>commons-httpclient</artifactId>-->
+<!--			<version>3.0</version>-->
+<!--		</dependency>-->
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
@@ -81,6 +126,32 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+<!--	those are the SL5 version-->
+<!--		<dependency>-->
+<!--    		<groupId>commons-collections</groupId>-->
+<!--    		<artifactId>commons-collections</artifactId>-->
+<!--    		<version>3.2</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--		    <groupId>commons-lang</groupId>-->
+<!--		    <artifactId>commons-lang</artifactId>-->
+<!--		    <version>2.1</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--		    <groupId>commons-logging</groupId>-->
+<!--		    <artifactId>commons-logging</artifactId>-->
+<!--		    <version>1.0.4</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--		    <groupId>commons-digester</groupId>-->
+<!--		    <artifactId>commons-digester</artifactId>-->
+<!--		    <version>1.7</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--		    <groupId>commons-beanutils</groupId>-->
+<!--		    <artifactId>commons-beanutils</artifactId>-->
+<!--		    <version>1.7.0</version>-->
+<!--		</dependency>-->
 		<dependency>
 			<groupId>it.grid.storm</groupId>
 			<artifactId>backend</artifactId>
@@ -103,4 +174,8 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
+	<properties>
+		<jar_installation_prefix>/usr/share/java</jar_installation_prefix>
+		<doc_installation_prefix>/usr/share/doc</doc_installation_prefix>
+	</properties>
 </project>
