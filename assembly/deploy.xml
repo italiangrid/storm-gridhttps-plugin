@@ -11,6 +11,17 @@
 			<directory>etc</directory>
 			<outputDirectory>/etc</outputDirectory>
 		</fileSet>
+		<fileSet>
+			<directory>doc</directory>
+			<outputDirectory>/usr/share/doc/${artifactId}</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>.</directory>
+			<outputDirectory>/usr/share/doc/${artifactId}</outputDirectory>
+			<includes>
+				<include>LICENSE.txt</include>
+			</includes>
+		</fileSet>
 	</fileSets>
 
 	<dependencySets>
