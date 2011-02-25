@@ -29,7 +29,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<finalName>${project.artifactId}-${project.version}-${build_age}-${build_platform}</finalName>
+					<finalName>${project.artifactId}-${project.version}-${build_age}.${build_platform}</finalName>
 					<descriptors>
 						<descriptor>assembly/deploy.xml</descriptor>
 					</descriptors>
@@ -157,8 +157,8 @@
 <!--		    <version>1.7</version>-->
 <!--		</dependency>-->
 		<dependency>
-			<groupId>it.grid.storm</groupId>
-			<artifactId>backend</artifactId>
+			<groupId>emi.storm</groupId>
+			<artifactId>storm-backend-server</artifactId>
 			<version>1.7.0</version>
 			<type>jar</type>
 			<scope>provided</scope>
