@@ -24,25 +24,14 @@
 ## 
 
 # ============================
-# StoRM Gridhttps server 
-# ============================ 
-# The host running the Gridhttps server service  
-#   <!! managed by YAIM; please read the above NOTE !!>
-#Default=localhost
-gridhttps.server.host=localhost
-# The port on which Gridhttps server service is listening
-#Default=8080
-gridhttps.server.port=8080
-
-# ============================
 # StoRM Gridhttps server user 
 # ============================ 
 # The local user running the Gridhttps server service  
 #   <!! managed by YAIM; please read the above NOTE !!>
 # The User ID associated to the user
 #Default=0 (root) 
-gridhttps.server.user.uid=0
+gridhttps.server.user.uid =
 
 # The primary Group ID associated to the user
 #Default=0 (root) 
-gridhttps.server.user.gid=0   
+gridhttps.server.user.gid =   
