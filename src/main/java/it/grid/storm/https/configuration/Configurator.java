@@ -54,8 +54,6 @@ public class Configurator
         logger.debug("Testing the file for all required parameters");
         try
         {
-            getServerHost();
-            getServerMappingServicePort();
             getServerUserUID();
             getServerUserGID();
         }
@@ -86,66 +84,6 @@ public class Configurator
         }
     }
 
-    /**
-     * @return
-     * @throws ConfigurationException
-     */
-    public static String getServerHost() throws ConfigurationException
-    {
-        logger.debug("Requested the retrieving of the gridhttps server host name");
-        String serverHost = null;
-        if (config != null)
-        {
-            tryReinit();
-            serverHost = getStringProperty("gridhttps.server.host");
-            if (serverHost == null)
-            {
-                logger.error("Unable to retrieve thegridhttps server host name from the configuration file \'" + config.getFileName() + "\'");
-                throw new ConfigurationException("Unable to retrieve the gridhttps server host name from the configuration file \'"
-                        + config.getFileName() + "\'");
-            }
-        }
-        else
-        {
-            logger.error("Unable to retrieve the gridhttps server host name, Configurator"
-                    + " not initialized! Do Configurator.init(File propertiesFile) first");
-            throw new ConfigurationException("Unable to retrieve the gridhttps server host name, Configurator not"
-                    + " initialized! Do Configurator.init(File propertiesFile) first");
-        }
-        return serverHost;
-    }
-
-
-    /**
-     * @return
-     * @throws ConfigurationException
-     */
-    public static int getServerMappingServicePort() throws ConfigurationException
-    {
-        logger.debug("Requested the retrieving of the server mapping service port");
-        Integer port = null;
-        if (config != null)
-        {
-            tryReinit();
-            port = getIntProperty("gridhttps.server.port");
-            if (port < 0)
-            {
-                logger.error("Unable to retrieve a correct server mapping service port from the configuration file \'" + config.getFileName()
-                        + "\'");
-                throw new ConfigurationException("Unable to retrieve a correct server mapping service port from the configuration file \'"
-                        + config.getFileName() + "\'");
-            }
-        }
-        else
-        {
-            logger.error("Unable to retrieve the server mapping service port, Configurator"
-                    + " not initialized! Do Configurator.init(File propertiesFile) first");
-            throw new ConfigurationException("Unable to retrieve the server mapping service port, Configurator not"
-                    + " initialized! Do Configurator.init(File propertiesFile) first");
-        }
-        return port.intValue();
-    }
-    
     /**
      * @return
      * @throws ConfigurationException

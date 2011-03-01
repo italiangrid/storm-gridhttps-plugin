@@ -72,7 +72,7 @@
 							<dependency/>
 						</mapping>
 						<mapping>
-						<directoryIncluded>false</directoryIncluded>
+							<directoryIncluded>false</directoryIncluded>
 							<directory>/etc</directory>
 							<sources>
 								<source>

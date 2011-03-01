@@ -21,5 +21,5 @@ public class GridHttpsServiceConstants
 
 
     public static final String CONFIGURATION_FILE_LOCATION_PATH = "/etc";
-    public static final String CONFIGURATION_FILE_NAME = "storm.plugin.properties";
+    public static final String CONFIGURATION_FILE_NAME = "storm.gridhttps.plugin.properties";
 }

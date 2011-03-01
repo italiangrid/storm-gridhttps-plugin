@@ -34,6 +34,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import it.grid.storm.config.Configuration;
 import it.grid.storm.filesystem.FilesystemPermission;
 import it.grid.storm.filesystem.LocalFile;
 import it.grid.storm.griduser.LocalUser;
@@ -72,8 +73,8 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
         }
         try
         {
-            serverHost = Configurator.getServerHost();
-            serverPort = Configurator.getServerMappingServicePort();
+            serverHost = Configuration.getInstance().getGridhttpsServerHost();
+            serverPort = Configuration.getInstance().getGridhttpsServerPort();
             serverUserUID = Configurator.getServerUserUID();
             serverUserGID = Configurator.getServerUserGID();
         }
