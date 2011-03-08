@@ -29,7 +29,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<finalName>${project.artifactId}-${project.version}-${build_age}.${build_platform}</finalName>
+					<finalName>${project.artifactId}-${project.version}-${age}</finalName>
 					<descriptors>
 						<descriptor>assembly/deploy.xml</descriptor>
 					</descriptors>
@@ -51,12 +51,14 @@
 				<configuration>
 					<name>${project.artifactId}</name>
 					<version>${project.version}</version>
-					<release>${build_age}</release>
+					<release>${age}</release>
 <!--					<needarch>${build_platform}</needarch>-->
+					<autoProvides>true</autoProvides>
+					<autoRequires>true</autoRequires>
 					<summary>The StoRM GridHTTPS component</summary>
 					<copyright>Apache License, Version 2.0. See included file LICENSE.txt</copyright>
 					<url>http://storm.forge.cnaf.infn.it</url>
-					<vendor>INFN - CNAF (2011)</vendor>
+					<vendor>EMI</vendor>
 					<group>Application/Generic</group>
 					<packager>Michele Dibenedetto storm-support@lists.infn.it</packager>
 					<changelogFile>doc/CHANGELOG</changelogFile>
