@@ -7,6 +7,13 @@
 	</formats>
 
 	<fileSets>
+			<fileSet>
+			<directory>target</directory>
+			<outputDirectory>${jar_installation_prefix}/${artifactId}</outputDirectory>
+			<includes>
+				<include>*.jar</include>
+			</includes>
+		</fileSet>
 		<fileSet>
 			<directory>etc</directory>
 			<outputDirectory>/etc/storm</outputDirectory>
@@ -27,6 +34,9 @@
 	<dependencySets>
 		<dependencySet>
 			<outputDirectory>${jar_installation_prefix}/${artifactId}</outputDirectory>
+			<excludes>
+				<exclude>it.grid.storm:storm-gridhttps-plugin</exclude>
+			</excludes>
 		</dependencySet>
 	</dependencySets>
 </assembly>
