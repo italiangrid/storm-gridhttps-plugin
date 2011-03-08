@@ -72,8 +72,9 @@
 							<dependency/>
 						</mapping>
 						<mapping>
+							<configuration>true</configuration>
 							<directoryIncluded>false</directoryIncluded>
-							<directory>/etc</directory>
+							<directory>/etc/storm</directory>
 							<sources>
 								<source>
 									<location>etc</location>
@@ -82,7 +83,7 @@
 						</mapping>
 						<mapping>
 							<documentation>true</documentation>	
-							<directory>${doc_installation_prefix}/${project.artifactId}</directory>
+							<directory>${doc_installation_prefix}/${project.artifactId}-${project.version}</directory>
 							<sources>
 								<source>
 									<location>./LICENSE.txt</location>
