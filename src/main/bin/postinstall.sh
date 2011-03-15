@@ -12,9 +12,9 @@
 #during an install, the value of the argument passed in is 1
 #during an upgrade, the value of the argument passed in is 2
 if [ "$1" = "1" -o "$1" = "2" ] ; then
-	echo "The StoRM GridHTTPS plugin is installed but NOT configured yet. You need to use yaim to configure the plugin."
-	echo 'Creating links to StoRM GridHTTPS plugin jars in StoRM BackEnd lib folder'
-	ln -sf /usr/share/java/storm-gridhttps-plugin/storm-gridhttps-plugin-*.jar /usr/share/java/storm-backend-server/lib/
-	ln -sf /usr/share/java/storm-gridhttps-plugin/httpclient-*.jar /usr/share/java/storm-backend-server/lib/
-	ln -sf /usr/share/java/storm-gridhttps-plugin/httpcore-*.jar /usr/share/java/storm-backend-server/lib/
+	#echo "The StoRM GridHTTPS plugin is installed but NOT configured yet. You need to use yaim to configure the plugin."
+	#echo 'Creating links to StoRM GridHTTPS plugin jars in StoRM BackEnd lib folder'
+	ln -sf /usr/share/java/storm-gridhttps-plugin/storm-gridhttps-plugin.jar /usr/share/java/storm-backend-server/
+	ln -sf /usr/share/java/storm-gridhttps-plugin/httpclient-*.jar /usr/share/java/storm-backend-server/httpclient.jar
+	ln -sf /usr/share/java/storm-gridhttps-plugin/httpcore-*.jar /usr/share/java/storm-backend-server/httpcore.jar
 fi

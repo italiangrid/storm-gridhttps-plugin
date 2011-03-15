@@ -13,13 +13,13 @@
 #during an uninstall, the value of the argument passed in is 0
 if [ "$1" = "0" -o "$1" = "1" ] ; then
 	echo 'Removing old links to StoRM GridHTTPS plugin jars from StoRM BackEnd lib folder'
-	if [ -s /usr/share/java/storm-backend-server/lib/storm-gridhttps-plugin-*.jar ] ; then
-		unlink /usr/share/java/storm-backend-server/lib/storm-gridhttps-plugin-*.jar ;
+	if [ -s /usr/share/java/storm-backend-server/storm-gridhttps-plugin.jar ] ; then
+		unlink /usr/share/java/storm-backend-server/storm-gridhttps-plugin.jar ;
 	fi
-	if [ -s /usr/share/java/storm-backend-server/lib/httpclient-*.jar ] ; then
-		unlink /usr/share/java/storm-backend-server/lib/httpclient-*.jar ;
+	if [ -s /usr/share/java/storm-backend-server/httpclient.jar ] ; then
+		unlink /usr/share/java/storm-backend-server/httpclient.jar ;
 	fi
-	if [ -s /usr/share/java/storm-backend-server/lib/httpcore-*.jar ] ; then
-		unlink /usr/share/java/storm-backend-server/lib/httpcore-*.jar ;
+	if [ -s /usr/share/java/storm-backend-server/httpcore.jar ] ; then
+		unlink /usr/share/java/storm-backend-server/httpcore.jar ;
 	fi
 fi;
