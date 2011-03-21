@@ -102,7 +102,7 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
     public void grantGroupPermission(LocalFile localFile, LocalUser localUser, FilesystemPermission permission)
     {
         localFile.grantGroupPermission(serverLocalUser, permission);
-// log.info("Granted group permission " + permission.toString() + " on file " + localFile.toString() + " to group " + localUser.toString());
+        log.debug("Granted group permission " + permission.toString() + " on file " + localFile.toString() + " to group " + localUser.toString());
     }
 
 
@@ -115,7 +115,7 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
     public void grantUserPermission(LocalFile localFile, LocalUser localUser, FilesystemPermission permission)
     {
         localFile.grantUserPermission(serverLocalUser, permission);
-// log.info("Granted user permission " + permission.toString() + " on file " + localFile.toString() + " to user " + localUser.toString());
+        log.debug("Granted user permission " + permission.toString() + " on file " + localFile.toString() + " to user " + localUser.toString());
     }
 
 
@@ -128,7 +128,7 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
     public void removeGroupPermission(LocalFile localFile, LocalUser localUser)
     {
         localFile.removeGroupPermission(serverLocalUser);
-// log.info("Removed group permission from file " + localFile.toString() + " to group " + localUser.toString());
+        log.debug("Removed group permission from file " + localFile.toString() + " to group " + localUser.toString());
     }
 
 
@@ -141,7 +141,7 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
     public void removeUserPermission(LocalFile localFile, LocalUser localUser)
     {
         localFile.removeUserPermission(serverLocalUser);
-// log.info("Removed user permission from file " + localFile.toString() + " to user " + localUser.toString());
+        log.debug("Removed user permission from file " + localFile.toString() + " to user " + localUser.toString());
     }
 
 
@@ -154,8 +154,8 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
     public void revokeGroupPermission(LocalFile localFile, LocalUser localUser, FilesystemPermission permission)
     {
         localFile.revokeGroupPermission(serverLocalUser, permission);
-// log.info("Revoked group permission " + permission.toString() + " from file " + localFile.toString() + " to group " +
-        // localUser.toString());
+        log.debug("Revoked group permission " + permission.toString() + " from file " + localFile.toString() + " to group " +
+                  localUser.toString());
     }
 
 
@@ -168,7 +168,7 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
     public void revokeUserPermission(LocalFile localFile, LocalUser localUser, FilesystemPermission permission)
     {
         localFile.revokeUserPermission(serverLocalUser, permission);
-// log.info("Revoked user permission " + permission.toString() + " from file " + localFile.toString() + " to user " + localUser.toString());
+        log.debug("Revoked user permission " + permission.toString() + " from file " + localFile.toString() + " to user " + localUser.toString());
     }
 
 
@@ -181,7 +181,7 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
     public void setGroupPermission(LocalFile localFile, LocalUser localUser, FilesystemPermission permission)
     {
         localFile.setGroupPermission(serverLocalUser, permission);
-// log.info("Setted group permission " + permission.toString() + " on file " + localFile.toString() + " to group " + localUser.toString());
+        log.debug("Setted group permission " + permission.toString() + " on file " + localFile.toString() + " to group " + localUser.toString());
     }
 
 
@@ -194,7 +194,7 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
     public void setUserPermission(LocalFile localFile, LocalUser localUser, FilesystemPermission permission)
     {
         localFile.setUserPermission(serverLocalUser, permission);
-// log.info("Setted user permission " + permission.toString() + " on file " + localFile.toString() + " to user " + localUser.toString());
+        log.debug("Setted user permission " + permission.toString() + " on file " + localFile.toString() + " to user " + localUser.toString());
     }
 
 
@@ -203,7 +203,7 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
     {
         localFile.removeGroupPermission(serverLocalUser);
         localFile.removeUserPermission(serverLocalUser);
-// log.info("Removing all permissions from file " + localFile.toString());
+        log.debug("Removing all permissions from file " + localFile.toString());
     }
 
 
@@ -214,7 +214,7 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
         FilesystemPermission groupPermission = fromLocalFile.getGroupPermission(serverLocalUser);
         toLocalFile.grantUserPermission(serverLocalUser, userPermission);
         toLocalFile.grantGroupPermission(serverLocalUser, groupPermission);
-// log.info("Moving all permissions from file " + fromLocalFile.toString() + " to file " + toLocalFile.toString());
+        log.debug("Moving all permissions from file " + fromLocalFile.toString() + " to file " + toLocalFile.toString());
     }
 
 
@@ -224,7 +224,6 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
     @Override
     public String getServiceHost()
     {
-// log.info("Gettin service host \'localhost\'");
         return serverHost;
     }
 
@@ -235,7 +234,6 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
     @Override
     public Integer getServicePort()
     {
-// log.info("Gettin service port \'12345\'");
         return new Integer(serverPort);
     }
 
@@ -246,8 +244,9 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
     @Override
     public String MapLocalPath(String localAbsolutePath) throws HTTPSPluginException
     {
+        log.debug("Mapping local path " + localAbsolutePath + " to gridhttp relative URL");
         URI uri = buildMapperServiceUri(localAbsolutePath);
-        System.out.println("INFO: Mapping Service call uri = " + uri.toString());
+        log.debug("Mapping Service call uri = " + uri.toString());
         HttpGet httpget = new HttpGet(uri);
         HttpClient httpclient = new DefaultHttpClient();
         HttpResponse httpResponse;
@@ -257,19 +256,19 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
         }
         catch (ClientProtocolException e)
         {
-            System.out.println("ERROR: Error executing http call. ClientProtocolException " + e.getLocalizedMessage());
+            log.error("Error executing http call. ClientProtocolException " + e.getLocalizedMessage());
             throw new HTTPSPluginException("Error contacting Mapping Service.");
         }
         catch (IOException e)
         {
-            System.out.println("ERROR: Error executing http call. IOException " + e.getLocalizedMessage());
+            log.error("Error executing http call. IOException " + e.getLocalizedMessage());
             throw new HTTPSPluginException("Error contacting Mapping Service.");
         }
         StatusLine status = httpResponse.getStatusLine();
         if (status == null)
         {
             // never return null
-            System.out.println("ERROR: Unexpected error! response.getStatusLine() returned null!");
+            log.error("Unexpected error! response.getStatusLine() returned null!");
             throw new HTTPSPluginException("Unexpected error! response.getStatusLine() returned null! Please contact storm support");
         }
         int httpCode = status.getStatusCode();
@@ -285,13 +284,13 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
             }
             catch (IllegalStateException e)
             {
-                System.out.println("ERROR: unable to get the input content stream from server answer. IllegalStateException "
+                log.error("Unable to get the input content stream from server answer. IllegalStateException "
                         + e.getLocalizedMessage());
                 throw new HTTPSPluginException("Error comunicationg with the Mapping Service.");
             }
             catch (IOException e)
             {
-                System.out.println("ERROR: unable to get the input content stream from server answer. IOException "
+                log.error("Unable to get the input content stream from server answer. IOException "
                         + e.getLocalizedMessage());
                 throw new HTTPSPluginException("Error comunicationg with the Mapping Servicee.");
             }
@@ -306,24 +305,24 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
             }
             catch (IOException e)
             {
-                System.out.println("ERROR: Error reading from the connection error stream. IOException " + e.getMessage());
+                log.error("Error reading from the connection error stream. IOException " + e.getMessage());
                 throw new HTTPSPluginException("Error comunicationg with the Mapping Service.");
             }
         }
         else
         {
-            System.out.println("ERROR: no HttpEntity found in the response. Unable to determine the answer");
+            log.error("No HttpEntity found in the response. Unable to determine the answer");
             throw new HTTPSPluginException("Unable to get a valid Mapping response from the server.");
         }
-        System.out.println("INFO: Response is : \'" + output + "\'");
+        log.debug("Mapping Service response is : \'" + output + "\'");
         if (httpCode != HttpURLConnection.HTTP_OK)
         {
-            System.out.println("WARN: Unable to get a valid response from server. Received a non HTTP 200 response from the server : \'"
+            log.error("Unable to get a valid response from server. Received a non HTTP 200 response from the server : \'"
                     + httpCode + "\' " + httpMessage);
             throw new HTTPSPluginException("Unable to get a valid response from server. " + httpMessage);
         }
         String URLPath = decodeHttpsPath(output);
-        log.info("Mapping local absolute path \'" + localAbsolutePath + "\' to \'" + URLPath + "\'");
+        log.info("Mapped local absolute path \'" + localAbsolutePath + "\' to \'" + URLPath + "\' gridhttp relative URL");
         return URLPath;
     }
 
@@ -335,7 +334,7 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
      */
     private URI buildMapperServiceUri(String localAbsolutePath) throws HTTPSPluginException
     {
-        System.out.println("DEBUG: encoding parameters");
+        log.debug("Encoding parameters");
         String path = MapperServiceConstants.SERVICE_PATH;
         List<NameValuePair> qparams = new ArrayList<NameValuePair>();
         qparams.add(new BasicNameValuePair(MapperServiceConstants.RESOURCE_MAPPING_PATH_KEY, localAbsolutePath));
@@ -346,7 +345,7 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
         }
         catch (URISyntaxException e)
         {
-            System.out.println("ERROR: Unable to create Mapper Service URI. URISyntaxException " + e.getLocalizedMessage());
+            log.error("Unable to create Mapper Service URI. URISyntaxException " + e.getLocalizedMessage());
             throw new HTTPSPluginException("Unable to create Mapper Service URI");
         }
         return uri;

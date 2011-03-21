@@ -60,10 +60,9 @@
 					<copyright>Apache License, Version 2.0. See included file LICENSE.txt</copyright>
 					<url>http://storm.forge.cnaf.infn.it</url>
 					<vendor>EMI</vendor>
-					<group>Application/Generic</group>
+					<group>Application/File</group>
 					<packager>Michele Dibenedetto storm-support@lists.infn.it</packager>
 					<changelogFile>doc/CHANGELOG</changelogFile>
-<!--Release: %{age}.%{distribution}-->
 					<mappings>
 						<mapping>
 							<directory>${jar_installation_prefix}/${project.artifactId}</directory>
