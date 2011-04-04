@@ -20,11 +20,11 @@
 		</fileSet>
 		<fileSet>
 			<directory>doc</directory>
-			<outputDirectory>${doc_installation_prefix}/${artifactId}-${version}</outputDirectory>
+			<outputDirectory>${doc_installation_prefix}/${groupId}-${artifactId}-${version}</outputDirectory>
 		</fileSet>
 		<fileSet>
 			<directory>.</directory>
-			<outputDirectory>${doc_installation_prefix}/${artifactId}-${version}</outputDirectory>
+			<outputDirectory>${doc_installation_prefix}/${groupId}-${artifactId}-${version}</outputDirectory>
 			<includes>
 				<include>LICENSE.txt</include>
 			</includes>

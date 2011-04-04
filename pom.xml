@@ -91,7 +91,7 @@
 						</mapping>
 						<mapping>
 							<documentation>true</documentation>	
-							<directory>${doc_installation_prefix}/${project.artifactId}-${project.version}</directory>
+							<directory>${doc_installation_prefix}/${project.groupId}-${project.artifactId}-${project.version}</directory>
 							<sources>
 								<source>
 									<location>./LICENSE.txt</location>
