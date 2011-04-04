@@ -4,6 +4,12 @@
 	<groupId>it.grid.storm</groupId>
 	<artifactId>storm-gridhttps-plugin</artifactId>
 	<version>1.0.1</version>
+		<properties>
+		<jar_installation_prefix>/usr/share/java</jar_installation_prefix>
+		<doc_installation_prefix>/usr/share/doc</doc_installation_prefix>
+		<conf_installation_prefix>/etc/storm</conf_installation_prefix>
+		<module_name>gridhttps-plugin</module_name>
+	</properties>
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
@@ -76,7 +82,7 @@
 						<mapping>
 							<configuration>true</configuration>
 							<directoryIncluded>false</directoryIncluded>
-							<directory>/etc/storm</directory>
+							<directory>${conf_installation_prefix}/${module_name}</directory>
 							<sources>
 								<source>
 									<location>etc</location>
@@ -181,8 +187,4 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
-	<properties>
-		<jar_installation_prefix>/usr/share/java</jar_installation_prefix>
-		<doc_installation_prefix>/usr/share/doc</doc_installation_prefix>
-	</properties>
 </project>

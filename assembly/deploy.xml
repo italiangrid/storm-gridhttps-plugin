@@ -16,7 +16,7 @@
 		</fileSet>
 		<fileSet>
 			<directory>etc</directory>
-			<outputDirectory>/etc/storm</outputDirectory>
+			<outputDirectory>${conf_installation_prefix}/${module_name}</outputDirectory>
 		</fileSet>
 		<fileSet>
 			<directory>doc</directory>
