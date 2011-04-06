@@ -20,11 +20,11 @@
 		</fileSet>
 		<fileSet>
 			<directory>doc</directory>
-			<outputDirectory>${doc_installation_prefix}/${groupId}-${artifactId}-${version}</outputDirectory>
+			<outputDirectory>${doc_installation_prefix}/${artifactId}-${version}</outputDirectory>
 		</fileSet>
 		<fileSet>
 			<directory>.</directory>
-			<outputDirectory>${doc_installation_prefix}/${groupId}-${artifactId}-${version}</outputDirectory>
+			<outputDirectory>${doc_installation_prefix}/${artifactId}-${version}</outputDirectory>
 			<includes>
 				<include>LICENSE.txt</include>
 			</includes>
@@ -35,7 +35,7 @@
 		<dependencySet>
 			<outputDirectory>${jar_installation_prefix}/${artifactId}</outputDirectory>
 			<excludes>
-				<exclude>it.grid.storm:storm-gridhttps-plugin</exclude>
+				<exclude>${groupId}:${artifactId}</exclude>
 			</excludes>
 		</dependencySet>
 	</dependencySets>
