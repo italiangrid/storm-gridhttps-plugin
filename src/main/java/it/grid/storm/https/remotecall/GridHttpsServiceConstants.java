@@ -12,6 +12,8 @@
  */
 package it.grid.storm.https.remotecall;
 
+import java.io.File;
+
 
 /**
  * @author Michele Dibenedetto
@@ -20,6 +22,6 @@ public class GridHttpsServiceConstants
 {
 
 
-    public static final String CONFIGURATION_FILE_LOCATION_PATH = "/etc";
+    public static final String CONFIGURATION_FILE_LOCATION_PATH = File.separatorChar + "etc" + File.separatorChar + "storm" + File.separatorChar + "gridhttps-plugin";
     public static final String CONFIGURATION_FILE_NAME = "storm.gridhttps.plugin.properties";
 }
