@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>emi.storm</groupId>
 	<artifactId>storm-gridhttps-plugin</artifactId>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 		<properties>
 		<jar_installation_prefix>/usr/share/java</jar_installation_prefix>
 		<doc_installation_prefix>/usr/share/doc</doc_installation_prefix>
@@ -168,7 +168,7 @@
 		<dependency>
 			<groupId>emi.storm</groupId>
 			<artifactId>storm-backend-server</artifactId>
-			<version>1.7.0</version>
+			<version>1.7.1</version>
 			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>
