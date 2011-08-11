@@ -168,7 +168,7 @@
 		<dependency>
 			<groupId>emi.storm</groupId>
 			<artifactId>storm-backend-server</artifactId>
-			<version>[1.7.0,)</version>
+			<version>1.7.1</version>
 			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>
