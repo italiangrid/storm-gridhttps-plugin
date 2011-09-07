@@ -110,6 +110,14 @@
 					<preremoveScriptlet>
 						<scriptFile>src/main/bin/preremove.sh</scriptFile>
 					</preremoveScriptlet>
+					<triggers>
+						<postRemoveTrigger>
+							<scriptFile>src/main/bin/selfRemoveTrigger.sh</scriptFile>
+							<triggers>
+					  			<trigger>storm-gridhttps-plugin</trigger>
+					  		</triggers>
+						</postRemoveTrigger>  
+					</triggers>
 				</configuration>
 			</plugin>
 		</plugins>

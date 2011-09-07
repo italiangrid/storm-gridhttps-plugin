@@ -9,13 +9,15 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
  
-#during an install, the value of the argument passed in is 1
-#during an upgrade, the value of the argument passed in is 2
+#during an upgrade where this package is the new one and where this package is the old one the value of the first argument passed in is 2
+#during a remove the value of the first argument passed in is 1
 
-if [ "$1" = "1" -o "$1" = "2" ] ; then
-	echo "The StoRM GridHTTPS plugin is installed but NOT configured yet. You need to use yaim to configure the plugin."
+#NOTE: This script is executed also when this package is updated by a new version. 
+#      Consider that it is executed before an analogous script possibly present in the new version.
+
+if [ $1 -eq 2 ]; then
 	if [ ! -s /usr/share/java/storm-backend-server/storm-gridhttps-plugin.jar ] ; then 
-		echo 'Creating links to StoRM GridHTTPS plugin jars in StoRM BackEnd lib folder'
+		echo 'Restoring links to StoRM GridHTTPS plugin jars in StoRM BackEnd lib folder'
 		ln -sf /usr/share/java/storm-gridhttps-plugin/storm-gridhttps-plugin.jar /usr/share/java/storm-backend-server/
 	fi
 	if [ ! -s /usr/share/java/storm-backend-server/httpclient.jar ] ; then
@@ -24,4 +26,6 @@ if [ "$1" = "1" -o "$1" = "2" ] ; then
 	if [ ! -s /usr/share/java/storm-backend-server/httpcore.jar ] ; then
 		ln -sf /usr/share/java/storm-gridhttps-plugin/httpcore-*.jar /usr/share/java/storm-backend-server/httpcore.jar
 	fi
+elif [ "$1" = "1" ] ; then
+	#nothing to do
 fi

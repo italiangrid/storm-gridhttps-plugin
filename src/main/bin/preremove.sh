@@ -9,11 +9,12 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 
-#during an upgrade, the value of the argument passed in is 1
 #during an uninstall, the value of the argument passed in is 0
-if [ "$1" = "0" -o "$1" = "1" ] ; then
-	echo 'Removing old links to StoRM GridHTTPS plugin jars from StoRM BackEnd lib folder'
+#during an upgrade, the value of the argument passed in is 1
+
+if [ "$1" = "0" ] ; then
 	if [ -s /usr/share/java/storm-backend-server/storm-gridhttps-plugin.jar ] ; then
+		echo 'Removing old links to StoRM GridHTTPS plugin jars from StoRM BackEnd jars folder'
 		unlink /usr/share/java/storm-backend-server/storm-gridhttps-plugin.jar ;
 	fi
 	if [ -s /usr/share/java/storm-backend-server/httpclient.jar ] ; then
@@ -22,4 +23,15 @@ if [ "$1" = "0" -o "$1" = "1" ] ; then
 	if [ -s /usr/share/java/storm-backend-server/httpcore.jar ] ; then
 		unlink /usr/share/java/storm-backend-server/httpcore.jar ;
 	fi
+	
+	if [ -f /etc/storm/gridhttps-plugin/storm.gridhttps.plugin.properties ] ; then
+		echo 'Removing configuration file produced by YAIM'
+		rm -f /etc/storm/gridhttps-plugin/storm.gridhttps.plugin.properties ;
+	fi
+	if [ -f /etc/storm/gridhttps-plugin/storm.gridhttps.plugin.properties.bkp_* ] ; then
+		echo 'Removing configuration file backups produced by YAIM'
+		rm -f /etc/storm/gridhttps-plugin/storm.gridhttps.plugin.properties.bkp_* ;
+	fi
+elif [ "$1" = "1" ] ; then
+	#nothing to do
 fi;
