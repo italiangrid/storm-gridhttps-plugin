@@ -28,4 +28,5 @@ if [ $1 -eq 2 ]; then
 	fi
 elif [ "$1" = "1" ] ; then
 	#nothing to do
+	TEMP_USELESS=1
 fi
