@@ -32,6 +32,4 @@ if [ "$1" = "0" ] ; then
 		echo 'Removing configuration file backups produced by YAIM'
 		rm -f /etc/storm/gridhttps-plugin/storm.gridhttps.plugin.properties.bkp_* ;
 	fi
-elif [ "$1" = "1" ] ; then
-	#nothing to do
 fi;

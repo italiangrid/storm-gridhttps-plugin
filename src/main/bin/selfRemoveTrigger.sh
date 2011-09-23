@@ -26,7 +26,4 @@ if [ $1 -eq 2 ]; then
 	if [ ! -s /usr/share/java/storm-backend-server/httpcore.jar ] ; then
 		ln -sf /usr/share/java/storm-gridhttps-plugin/httpcore-*.jar /usr/share/java/storm-backend-server/httpcore.jar
 	fi
-elif [ "$1" = "1" ] ; then
-	#nothing to do
-	TEMP_USELESS=1
 fi

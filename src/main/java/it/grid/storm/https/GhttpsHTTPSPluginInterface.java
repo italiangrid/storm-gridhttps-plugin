@@ -206,15 +206,14 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
         log.debug("Removing all permissions from file " + localFile.toString());
     }
 
-
+    /**
+     * Do nothing, permissions are stored as ACLs and moved with the file
+     */
     @Override
     public void moveAllPermissions(LocalFile fromLocalFile, LocalFile toLocalFile)
     {
-        FilesystemPermission userPermission = fromLocalFile.getUserPermission(serverLocalUser);
-        FilesystemPermission groupPermission = fromLocalFile.getGroupPermission(serverLocalUser);
-        toLocalFile.grantUserPermission(serverLocalUser, userPermission);
-        toLocalFile.grantGroupPermission(serverLocalUser, groupPermission);
-        log.debug("Moving all permissions from file " + fromLocalFile.toString() + " to file " + toLocalFile.toString());
+        log.debug("Permissions moving, from file " + fromLocalFile.toString() + " to file " + toLocalFile.toString()
+                + " . Nothing to do, permissions are moved with the file");
     }
 
 
