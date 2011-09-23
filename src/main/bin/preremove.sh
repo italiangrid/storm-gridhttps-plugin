@@ -28,7 +28,8 @@ if [ "$1" = "0" ] ; then
 		echo 'Removing configuration file produced by YAIM'
 		rm -f /etc/storm/gridhttps-plugin/storm.gridhttps.plugin.properties ;
 	fi
-	if [ -f /etc/storm/gridhttps-plugin/storm.gridhttps.plugin.properties.bkp_* ] ; then
+	ls /etc/storm/gridhttps-plugin/storm.gridhttps.plugin.properties.bkp_* >> /dev/null
+	if [ $? -eq 0 ]; then
 		echo 'Removing configuration file backups produced by YAIM'
 		rm -f /etc/storm/gridhttps-plugin/storm.gridhttps.plugin.properties.bkp_* ;
 	fi
