@@ -21,7 +21,7 @@
 					<debug>true</debug>
 				</configuration>
 			</plugin>
-			<plugin>
+<!--			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.2-beta-2</version>
@@ -40,10 +40,34 @@
 					<descriptors>
 						<descriptor>assembly/deploy.xml</descriptor>
 					</descriptors>
+					<tarLongFileMode>gnu</tarLongFileMode>
 				</configuration>
 			</plugin>
-
+-->			
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.2-beta-2</version>
+				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>install</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+                <configuration>
+                	<finalName>${project.artifactId}</finalName>
+                    <descriptors>
+                        <descriptor>assembly/deploy-fakeroot.xml</descriptor>
+                    </descriptors>
+                    <attach>false</attach>
+                    <ignoreDirFormatExtensions>false</ignoreDirFormatExtensions>
+                </configuration>
+			</plugin>
+<!--			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>rpm-maven-plugin</artifactId>
 				<version>2.1-alpha-1</version>
@@ -59,8 +83,9 @@
 					<name>${project.artifactId}</name>
 					<version>${project.version}</version>
 					<release>${age}</release>
+-->
 <!--					<needarch>${build_platform}</needarch>-->
-					<autoProvides>true</autoProvides>
+<!--					<autoProvides>true</autoProvides>
 					<autoRequires>true</autoRequires>
 					<summary>The StoRM GridHTTPS component</summary>
 					<copyright>Apache License, Version 2.0. See included file LICENSE.txt</copyright>
@@ -101,8 +126,9 @@
 					</mappings>
 					<requires>
 						<require>storm-backend-server</require>
+-->						
 <!--					Here the dependency to the chosen jdk/jre must be added -->
-					</requires>
+<!--					</requires>
 					<postinstallScriptlet>
 						<scriptFile>src/main/bin/postinstall.sh</scriptFile>
     					<fileEncoding>utf-8</fileEncoding>					
@@ -120,6 +146,7 @@
 					</triggers>
 				</configuration>
 			</plugin>
+-->
 		</plugins>
 	</build>
 	<dependencies>
