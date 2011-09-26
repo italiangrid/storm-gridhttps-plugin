@@ -59,7 +59,7 @@
 					</execution>
 				</executions>
                 <configuration>
-                	<finalName>${project.artifactId}</finalName>
+                	<finalName>${project.artifactId}-fakeroot</finalName>
                     <descriptors>
                         <descriptor>assembly/deploy-fakeroot.xml</descriptor>
                     </descriptors>
