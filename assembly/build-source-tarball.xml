@@ -1,0 +1,46 @@
+<assembly xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/assembly-1.0.0.xsd">
+
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<formats>
+		<format>tar.gz</format>
+	</formats>
+
+	<fileSets>
+		<fileSet>
+			<directory>${basedir}</directory>
+			<outputDirectory>/${artifactId}-${version}/</outputDirectory>
+			<includes>
+				<include>pom.xml</include>
+				<include>LICENSE.txt</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>${basedir}/etc</directory>
+			<outputDirectory>/${artifactId}-${version}/etc</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>${basedir}/doc</directory>
+			<outputDirectory>/${artifactId}-${version}/doc</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>${basedir}/assembly</directory>
+			<outputDirectory>/${artifactId}-${version}/assembly</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>${basedir}/src/spec</directory>
+			<outputDirectory>/${artifactId}-${version}/src/spec</outputDirectory>
+			<includes>
+				<include>storm-gridhttps-plugin.spec.velocity</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>${basedir}/src/main</directory>
+			<outputDirectory>/${artifactId}-${version}/src/main</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>${basedir}/storm-m2-repository</directory>
+			<outputDirectory>/${artifactId}-${version}/storm-m2-repository</outputDirectory>
+		</fileSet>
+	</fileSets>
+</assembly>

@@ -21,29 +21,6 @@
 					<debug>true</debug>
 				</configuration>
 			</plugin>
-<!--			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.2-beta-2</version>
-				<extensions>true</extensions>
-				<executions>
-					<execution>
-						<id>make-assembly</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<finalName>${project.artifactId}-${project.version}-${age}.noarch</finalName>
-					<descriptors>
-						<descriptor>assembly/deploy.xml</descriptor>
-					</descriptors>
-					<tarLongFileMode>gnu</tarLongFileMode>
-				</configuration>
-			</plugin>
--->			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -51,102 +28,52 @@
 				<extensions>true</extensions>
 				<executions>
 					<execution>
-						<id>make-assembly</id>
+						<id>make-assembly-source</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<finalName>${project.artifactId}-${project.version}-${age}</finalName>
+							<descriptors>
+								<descriptor>assembly/build-source-tarball.xml</descriptor>
+							</descriptors>
+							<tarLongFileMode>gnu</tarLongFileMode>
+						</configuration>
+					</execution>
+					<execution>
+						<id>make-deploy-bin</id>
 						<phase>install</phase>
 						<goals>
 							<goal>single</goal>
 						</goals>
+						 <configuration>
+		                	<finalName>${project.artifactId}-fakeroot</finalName>
+		                    <descriptors>
+		                        <descriptor>assembly/deploy-fakeroot.xml</descriptor>
+		                    </descriptors>
+		                    <attach>false</attach>
+		                    <ignoreDirFormatExtensions>false</ignoreDirFormatExtensions>
+		                </configuration>
 					</execution>
 				</executions>
-                <configuration>
-                	<finalName>${project.artifactId}-fakeroot</finalName>
-                    <descriptors>
-                        <descriptor>assembly/deploy-fakeroot.xml</descriptor>
-                    </descriptors>
-                    <attach>false</attach>
-                    <ignoreDirFormatExtensions>false</ignoreDirFormatExtensions>
-                </configuration>
 			</plugin>
-<!--			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>rpm-maven-plugin</artifactId>
-				<version>2.1-alpha-1</version>
-				<executions>
-					<execution>
-						<phase>install</phase>
-						<goals>
-							<goal>rpm</goal>
-						</goals>
-					</execution>
-				</executions>
+			<plugin>
+				<groupId>net.rumati.maven.plugins</groupId>
+				<artifactId>velocity-maven-plugin</artifactId>
+				<version>0.1.2</version>
 				<configuration>
-					<name>${project.artifactId}</name>
-					<version>${project.version}</version>
-					<release>${age}</release>
--->
-<!--					<needarch>${build_platform}</needarch>-->
-<!--					<autoProvides>true</autoProvides>
-					<autoRequires>true</autoRequires>
-					<summary>The StoRM GridHTTPS component</summary>
-					<copyright>Apache License, Version 2.0. See included file LICENSE.txt</copyright>
-					<url>http://storm.forge.cnaf.infn.it</url>
-					<vendor>EMI</vendor>
-					<group>Application/File</group>
-					<packager>Michele Dibenedetto storm-support@lists.infn.it</packager>
-					<changelogFile>doc/CHANGELOG</changelogFile>
-					<mappings>
-						<mapping>
-							<directory>${jar_installation_prefix}/${project.artifactId}</directory>
-							<artifact>
-								<classifiers>
-									<classifier></classifier>
-								</classifiers>
-							</artifact>
-							<dependency/>
-						</mapping>
-						<mapping>
-							<configuration>true</configuration>
-							<directoryIncluded>true</directoryIncluded>
-							<directory>${conf_installation_prefix}/${module_name}</directory>
-							<sources>
-								<source>
-									<location>etc</location>
-								</source>
-							</sources>
-						</mapping>
-						<mapping>
-							<documentation>true</documentation>	
-							<directory>${doc_installation_prefix}/${project.artifactId}-${project.version}</directory>
-							<sources>
-								<source>
-									<location>./LICENSE.txt</location>
-								</source>
-							</sources>
-						</mapping>
-					</mappings>
-					<requires>
-						<require>storm-backend-server</require>
--->						
-<!--					Here the dependency to the chosen jdk/jre must be added -->
-<!--					</requires>
-					<postinstallScriptlet>
-						<scriptFile>src/main/bin/postinstall.sh</scriptFile>
-    					<fileEncoding>utf-8</fileEncoding>					
-					</postinstallScriptlet>
-					<preremoveScriptlet>
-						<scriptFile>src/main/bin/preremove.sh</scriptFile>
-					</preremoveScriptlet>
-					<triggers>
-						<postRemoveTrigger>
-							<scriptFile>src/main/bin/selfRemoveTrigger.sh</scriptFile>
-							<triggers>
-					  			<trigger>storm-gridhttps-plugin</trigger>
-					  		</triggers>
-						</postRemoveTrigger>  
-					</triggers>
+					<outputFile>${project.build.directory}/spec/storm-gridhttps-plugin.spec</outputFile>
+					<template>src/spec/storm-gridhttps-plugin.spec.velocity</template>
+					<properties>
+						<PackageName>${project.artifactId}</PackageName>
+						<PackageVersion>${project.version}</PackageVersion>
+						<PackageAge>${age}</PackageAge>
+						<StormBackendServerVersion>${storm-backend-server.version}</StormBackendServerVersion>
+						<MavenRepositoryDir>${settings.localRepository}</MavenRepositoryDir>
+					</properties>
 				</configuration>
 			</plugin>
--->
 		</plugins>
 	</build>
 	<dependencies>
@@ -203,7 +130,7 @@
 		<dependency>
 			<groupId>emi.storm</groupId>
 			<artifactId>storm-backend-server</artifactId>
-			<version>1.7.1</version>
+			<version>${storm-backend-server.version}</version>
 			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>

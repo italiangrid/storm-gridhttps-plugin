@@ -1,3 +1,106 @@
+Summary: StoRM BackEnd Plugin for GridHTTPs integration
+Name: ${PackageName}
+Version: ${PackageVersion}
+Release: ${PackageAge}
+License: Apache License 2.0
+Vendor: EMI
+URL: http://storm.forge.cnaf.infn.it
+Group: Application/File
+Packager: Michele Dibenedetto storm-support@lists.infn.it
+BuildArch: noarch
+BuildRequires: maven
+BuildRequires: java-devel 
+Requires: storm-backend-server
+Requires: java-devel
+BuildRoot: %{_builddir}/%{name}-%{version}
+AutoReqProv: yes
+Source: ${PackageName}-${PackageVersion}-${PackageAge}.tar.gz
+
+%description
+StoRM BackEnd Plugin for GridHTTPs integration
+
+%prep
+
+
+%setup -c
+
+%build
+mkdir -p ${MavenRepositoryDir}; cp -rvf storm-m2-repository/* ${MavenRepositoryDir}
+mvn -Dmaven.repo.local=${MavenRepositoryDir} -Dage=${PackageAge} -Dstorm-backend-server.version=${StormBackendServerVersion} install
+
+%install
+test -d target/storm-gridhttps-plugin-fakeroot.dir && cp -vR target/storm-gridhttps-plugin-fakeroot.dir/* $RPM_BUILD_ROOT
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%post
+if [ "$1" = "1" -o "$1" = "2" ] ; then
+	echo "The StoRM GridHTTPS plugin is installed but NOT configured yet. You need to use yaim to configure the plugin."
+	if [ ! -s /usr/share/java/storm-backend-server/storm-gridhttps-plugin.jar ] ; then 
+		echo 'Creating links to StoRM GridHTTPS plugin jars in StoRM BackEnd lib folder'
+		ln -sf /usr/share/java/storm-gridhttps-plugin/storm-gridhttps-plugin.jar /usr/share/java/storm-backend-server/
+	fi
+	if [ ! -s /usr/share/java/storm-backend-server/httpclient.jar ] ; then
+		ln -sf /usr/share/java/storm-gridhttps-plugin/httpclient-*.jar /usr/share/java/storm-backend-server/httpclient.jar
+	fi
+	if [ ! -s /usr/share/java/storm-backend-server/httpcore.jar ] ; then
+		ln -sf /usr/share/java/storm-gridhttps-plugin/httpcore-*.jar /usr/share/java/storm-backend-server/httpcore.jar
+	fi
+fi
+
+%preun
+if [ "$1" = "0" ] ; then
+	if [ -s /usr/share/java/storm-backend-server/storm-gridhttps-plugin.jar ] ; then
+		echo 'Removing old links to StoRM GridHTTPS plugin jars from StoRM BackEnd jars folder'
+		unlink /usr/share/java/storm-backend-server/storm-gridhttps-plugin.jar ;
+	fi
+	if [ -s /usr/share/java/storm-backend-server/httpclient.jar ] ; then
+		unlink /usr/share/java/storm-backend-server/httpclient.jar ;
+	fi
+	if [ -s /usr/share/java/storm-backend-server/httpcore.jar ] ; then
+		unlink /usr/share/java/storm-backend-server/httpcore.jar ;
+	fi
+	
+	if [ -f /etc/storm/gridhttps-plugin/storm.gridhttps.plugin.properties ] ; then
+		echo 'Removing configuration file produced by YAIM'
+		rm -f /etc/storm/gridhttps-plugin/storm.gridhttps.plugin.properties ;
+	fi
+	ls /etc/storm/gridhttps-plugin/storm.gridhttps.plugin.properties.bkp_* >> /dev/null
+	if [ $? -eq 0 ]; then
+		echo 'Removing configuration file backups produced by YAIM'
+		rm -f /etc/storm/gridhttps-plugin/storm.gridhttps.plugin.properties.bkp_* ;
+	fi
+fi;
+
+%triggerpostun -- ${PackageName} 
+if [ $1 -eq 2 ]; then
+	if [ ! -s /usr/share/java/storm-backend-server/storm-gridhttps-plugin.jar ] ; then 
+		echo 'Restoring links to StoRM GridHTTPS plugin jars in StoRM BackEnd lib folder'
+		ln -sf /usr/share/java/storm-gridhttps-plugin/storm-gridhttps-plugin.jar /usr/share/java/storm-backend-server/
+	fi
+	if [ ! -s /usr/share/java/storm-backend-server/httpclient.jar ] ; then
+		ln -sf /usr/share/java/storm-gridhttps-plugin/httpclient-*.jar /usr/share/java/storm-backend-server/httpclient.jar
+	fi
+	if [ ! -s /usr/share/java/storm-backend-server/httpcore.jar ] ; then
+		ln -sf /usr/share/java/storm-gridhttps-plugin/httpcore-*.jar /usr/share/java/storm-backend-server/httpcore.jar
+	fi
+fi
+
+%files
+%defattr(-,root,root)
+%dir /etc/storm/
+%dir /etc/storm/gridhttps-plugin/
+%config /etc/storm/gridhttps-plugin/storm.gridhttps.plugin.properties.template
+%dir /usr/share/java/storm-gridhttps-plugin/
+/usr/share/java/storm-gridhttps-plugin/httpcore-4.1.jar
+/usr/share/java/storm-gridhttps-plugin/storm-gridhttps-plugin.jar
+/usr/share/java/storm-gridhttps-plugin/httpclient-4.1.jar
+%doc %dir /usr/share/doc/storm-gridhttps-plugin-1.0.3/
+%doc /usr/share/doc/storm-gridhttps-plugin-1.0.3/CHANGELOG
+%doc /usr/share/doc/storm-gridhttps-plugin-1.0.3/LICENSE.txt
+
+%changelog
 2011-09-26 11:32:54 CEST  dibenedetto
 -changed fakeroot directory name to storm-gridhttps-plugin-fakeroot.dir
 
