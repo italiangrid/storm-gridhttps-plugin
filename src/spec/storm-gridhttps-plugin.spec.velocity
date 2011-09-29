@@ -14,7 +14,7 @@ Requires: storm-backend-server
 Requires: java-devel
 BuildRoot: %{_builddir}/%{name}-%{version}
 AutoReqProv: yes
-Source: ${PackageName}-${PackageVersion}-${PackageAge}.tar.gz
+Source: ${PackageName}-${PackageVersion}.tar.gz
 
 %description
 StoRM BackEnd Plugin for GridHTTPs integration

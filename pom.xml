@@ -34,7 +34,7 @@
 							<goal>single</goal>
 						</goals>
 						<configuration>
-							<finalName>${project.artifactId}-${project.version}-${age}</finalName>
+							<finalName>${project.artifactId}-${project.version}</finalName>
 							<descriptors>
 								<descriptor>assembly/build-source-tarball.xml</descriptor>
 							</descriptors>
