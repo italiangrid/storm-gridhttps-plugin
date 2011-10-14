@@ -12,7 +12,7 @@ BuildRequires: maven
 BuildRequires: java-devel 
 Requires: storm-backend-server
 Requires: java-devel
-BuildRoot: %{_builddir}/%{name}-%{version}
+BuildRoot: %{_builddir}/%{name}-root
 AutoReqProv: yes
 Source: ${PackageName}-${PackageVersion}.tar.gz
 
@@ -22,17 +22,20 @@ StoRM BackEnd Plugin for GridHTTPs integration
 %prep
 
 
-%setup -c
+%setup -q
 
 %build
 mkdir -p ${MavenRepositoryDir}; cp -rvf storm-m2-repository/* ${MavenRepositoryDir}
-mvn -Dmaven.repo.local=${MavenRepositoryDir} -Dage=${PackageAge} -Dstorm-backend-server.version=${StormBackendServerVersion} install
+mvn -Dmaven.repo.local=${MavenRepositoryDir} -Dage=${PackageAge} -Darch=${PackageArch} -Dstorm-backend-server.version=${StormBackendServerVersion} install
 
 %install
+rm -rf $RPM_BUILD_ROOT
+mkdir -p $RPM_BUILD_ROOT
 test -d target/storm-gridhttps-plugin-fakeroot.dir && cp -vR target/storm-gridhttps-plugin-fakeroot.dir/* $RPM_BUILD_ROOT
 
+
 %clean
-rm -rf $RPM_BUILD_ROOT
+#rm -rf $RPM_BUILD_ROOT
 
 %post
 if [ "$1" = "1" -o "$1" = "2" ] ; then
@@ -101,7 +104,7 @@ fi
 %doc /usr/share/doc/storm-gridhttps-plugin-1.0.3/LICENSE.txt
 
 %changelog
-2011-09-26 11:32:54 CEST  dibenedetto
+* Mon Sep 26 2011 <Michele Dibenedetto> <michele.dibenedetto@cnaf.infn.it>
 -changed fakeroot directory name to storm-gridhttps-plugin-fakeroot.dir
 
 2011-09-26 11:15:26 CEST  dibenedetto

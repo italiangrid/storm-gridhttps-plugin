@@ -62,17 +62,27 @@
 				<groupId>net.rumati.maven.plugins</groupId>
 				<artifactId>velocity-maven-plugin</artifactId>
 				<version>0.1.2</version>
-				<configuration>
-					<outputFile>${project.build.directory}/spec/storm-gridhttps-plugin.spec</outputFile>
-					<template>src/spec/storm-gridhttps-plugin.spec.velocity</template>
-					<properties>
-						<PackageName>${project.artifactId}</PackageName>
-						<PackageVersion>${project.version}</PackageVersion>
-						<PackageAge>${age}</PackageAge>
-						<StormBackendServerVersion>${storm-backend-server.version}</StormBackendServerVersion>
-						<MavenRepositoryDir>${settings.localRepository}</MavenRepositoryDir>
-					</properties>
-				</configuration>
+				<executions>
+					<execution>
+						<id>bin-spec</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>velocity</goal>
+						</goals>
+						<configuration>
+							<outputFile>${project.build.directory}/spec/storm-gridhttps-plugin.spec</outputFile>
+							<template>src/spec/storm-gridhttps-plugin.spec.velocity</template>
+							<properties>
+								<PackageName>${project.artifactId}</PackageName>
+								<PackageVersion>${project.version}</PackageVersion>
+								<PackageAge>${age}</PackageAge>
+								<PackageArch>${arch}</PackageArch>
+								<StormBackendServerVersion>${storm-backend-server.version}</StormBackendServerVersion>
+								<MavenRepositoryDir>${settings.localRepository}</MavenRepositoryDir>
+							</properties>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
