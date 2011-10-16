@@ -42,6 +42,20 @@
 						</configuration>
 					</execution>
 					<execution>
+						<id>make-assembly-bin</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<finalName>${project.artifactId}-${project.version}-${age}</finalName>
+							<descriptors>
+								<descriptor>assembly/build-binary-tarball.xml</descriptor>
+							</descriptors>
+							<tarLongFileMode>gnu</tarLongFileMode>
+						</configuration>
+					</execution>
+					<execution>
 						<id>make-deploy-bin</id>
 						<phase>install</phase>
 						<goals>
