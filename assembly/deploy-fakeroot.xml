@@ -5,7 +5,7 @@
 	<formats>
 		<format>dir</format>
 	</formats>
-
+	<id>fakeroot</id>
 	<fileSets>
 			<fileSet>
 			<directory>target</directory>
@@ -30,7 +30,6 @@
 			</includes>
 		</fileSet>
 	</fileSets>
-
 	<dependencySets>
 		<dependencySet>
 			<outputDirectory>${jar_installation_prefix}/${artifactId}</outputDirectory>
