@@ -23,7 +23,7 @@ public class MapperServiceConstants
 
 
     public static final String ENCODING_SCHEME = "UTF-8";
-    public static final String SERVICE_PATH = File.separator + "gridhttps" + File.separator + "resourceMapping";
+    public static final String SERVICE_PATH = File.separator + "gridhttps_webapp" + File.separator + "resourceMapping";
     public static final String RESOURCE_MAPPING_PATH_KEY = "path";
     /*
      * Usage samples in an HTTP GET call
