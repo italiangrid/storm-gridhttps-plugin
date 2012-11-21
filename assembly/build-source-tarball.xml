@@ -12,6 +12,7 @@
 			<includes>
 				<include>pom.xml</include>
 				<include>LICENSE.txt</include>
+				<include>mirror-settings.xml</include>
 			</includes>
 		</fileSet>
 		<fileSet>
@@ -36,10 +37,6 @@
 		<fileSet>
 			<directory>${basedir}/src/main</directory>
 			<outputDirectory>/${artifactId}-${version}/src/main</outputDirectory>
-		</fileSet>
-		<fileSet>
-			<directory>${basedir}/storm-m2-repository</directory>
-			<outputDirectory>/${artifactId}-${version}/storm-m2-repository</outputDirectory>
 		</fileSet>
 	</fileSets>
 </assembly>
