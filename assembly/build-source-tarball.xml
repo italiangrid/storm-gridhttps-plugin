@@ -13,6 +13,7 @@
 				<include>pom.xml</include>
 				<include>LICENSE.txt</include>
 				<include>mirror-settings.xml</include>
+				<include>storm-backend-server.jar</include>
 			</includes>
 		</fileSet>
 		<fileSet>

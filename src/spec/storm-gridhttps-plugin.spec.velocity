@@ -1,5 +1,6 @@
 %define maven_profile ${MavenProfile}
 %define maven_settings ${MavenSettings}
+%define backend_version ${BackendVersion}
 
 Summary: StoRM BackEnd Plugin for GridHTTPs integration
 Name: ${PackageName}
@@ -28,6 +29,7 @@ StoRM BackEnd Plugin for GridHTTPs integration
 %setup -q
 
 %build      
+mvn %{maven_settings}  install:install-file -DgroupId=emi.storm -DartifactId=storm-backend-server -Dversion=%{backend_version} -Dpackaging=jar -Dfile=storm-backend-server.jar
 mvn %{maven_settings} -U -Dmaven.test.skip=true -P %{maven_profile} -Drelease=%{release} install
 
 %install

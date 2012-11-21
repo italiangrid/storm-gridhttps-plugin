@@ -104,6 +104,7 @@
 								<PackageRelease>${release}</PackageRelease>
 <!--								<PackageArch>${arch}</PackageArch> -->
 								<MavenSettings>${maven_settings}</MavenSettings>
+								<BackendVersion>${stormBackendVersion}</BackendVersion>
 								<MavenProfile>${project.activeProfiles[0].id}</MavenProfile>
 <!--								<StormBackendServerVersion>${storm-backend-server.version}</StormBackendServerVersion> -->
 <!--								<MavenRepositoryDir>${settings.localRepository}</MavenRepositoryDir> -->

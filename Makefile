@@ -33,3 +33,4 @@ clean:
 
 prepare:
 	wget $(mirror_conf_url) -O $(mirror_conf_name)
+	wget http://storm.forge.cnaf.infn.it/repository/internal/backend/storm-backend-server.jar -O storm-backend-server.jar
