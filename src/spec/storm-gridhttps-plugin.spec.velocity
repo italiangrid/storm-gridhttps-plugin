@@ -99,9 +99,9 @@ fi
 /usr/share/java/storm-gridhttps-plugin/httpcore-4.1.jar
 /usr/share/java/storm-gridhttps-plugin/storm-gridhttps-plugin.jar
 /usr/share/java/storm-gridhttps-plugin/httpclient-4.1.jar
-%doc %dir /usr/share/doc/storm-gridhttps-plugin-1.0.3/
-%doc /usr/share/doc/storm-gridhttps-plugin-1.0.3/CHANGELOG
-%doc /usr/share/doc/storm-gridhttps-plugin-1.0.3/LICENSE.txt
+%doc %dir /usr/share/doc/storm-gridhttps-plugin-%{version}/
+%doc /usr/share/doc/storm-gridhttps-plugin-%{version}/CHANGELOG
+%doc /usr/share/doc/storm-gridhttps-plugin-%{version}/LICENSE.txt
 
 %changelog
 * Mon Sep 26 2011 <Michele Dibenedetto> <michele.dibenedetto@cnaf.infn.it>
