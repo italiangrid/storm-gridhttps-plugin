@@ -24,9 +24,8 @@ StoRM BackEnd Plugin for GridHTTPs integration
 
 %setup -q
 
-%build
-mkdir -p ${MavenRepositoryDir}; cp -rvf storm-m2-repository/* ${MavenRepositoryDir}
-mvn -Dmaven.repo.local=${MavenRepositoryDir} -Drelease=%{release} -Darch=${PackageArch} -Dcomponent-version=%{version} -Dstorm-backend-server.version=${StormBackendServerVersion} install
+%build      
+mvn -Drelease=%{release} -Darch=${PackageArch} -Dcomponent-version=%{version} -Dstorm-backend-server.version=${StormBackendServerVersion} install
 
 %install
 rm -rf $RPM_BUILD_ROOT

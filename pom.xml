@@ -103,7 +103,6 @@
 								<PackageRelease>${release}</PackageRelease>
 								<PackageArch>${arch}</PackageArch>
 								<StormBackendServerVersion>${storm-backend-server.version}</StormBackendServerVersion>
-								<MavenRepositoryDir>${settings.localRepository}</MavenRepositoryDir>
 							</properties>
 						</configuration>
 					</execution>
