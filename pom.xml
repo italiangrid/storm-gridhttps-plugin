@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>emi.storm</groupId>
 	<artifactId>storm-gridhttps-plugin</artifactId>
-	<version>${component-version}</version>
+	<version>1.1.0</version>
 	<developers>
 		<developer>
 			<name>Michele Dibenedetto</name>
@@ -20,6 +20,7 @@
 		<doc_installation_prefix>/usr/share/doc</doc_installation_prefix>
 		<conf_installation_prefix>/etc/storm</conf_installation_prefix>
 		<module_name>gridhttps-plugin</module_name>
+		<stormBackendVersion>1.11.0</stormBackendVersion>
 	</properties>
 	<build>
 		<finalName>${project.artifactId}</finalName>
@@ -40,7 +41,7 @@
 				<executions>
 					<execution>
 						<id>make-assembly-source</id>
-						<phase>package</phase>
+						<phase>process-sources</phase>
 						<goals>
 							<goal>single</goal>
 						</goals>
@@ -101,8 +102,11 @@
 								<PackageName>${project.artifactId}</PackageName>
 								<PackageVersion>${project.version}</PackageVersion>
 								<PackageRelease>${release}</PackageRelease>
-								<PackageArch>${arch}</PackageArch>
-								<StormBackendServerVersion>${storm-backend-server.version}</StormBackendServerVersion>
+<!--								<PackageArch>${arch}</PackageArch> -->
+								<MavenSettings>${maven_settings}</MavenSettings>
+								<MavenProfile>${project.activeProfiles[0].id}</MavenProfile>
+<!--								<StormBackendServerVersion>${storm-backend-server.version}</StormBackendServerVersion> -->
+<!--								<MavenRepositoryDir>${settings.localRepository}</MavenRepositoryDir> -->
 							</properties>
 						</configuration>
 					</execution>
@@ -164,7 +168,7 @@
 		<dependency>
 			<groupId>emi.storm</groupId>
 			<artifactId>storm-backend-server</artifactId>
-			<version>${storm-backend-server.version}</version>
+			<version>${stormBackendVersion}</version>
 			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>
@@ -183,4 +187,29 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
+	<profiles>
+		<profile>
+			<id>sl5</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>!maven_settings</name>
+				</property>
+			</activation>
+			<properties>
+				<maven_settings>-s settings.xml</maven_settings>
+			</properties>
+		</profile>
+		<profile>
+			<id>sl6</id>
+			<activation>
+				<property>
+					<name>!maven_settings</name>
+				</property>
+			</activation>
+			<properties>
+				<maven_settings>-s settings.xml</maven_settings>
+			</properties>
+		</profile>
+	</profiles>
 </project>
