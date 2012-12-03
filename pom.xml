@@ -21,6 +21,7 @@
 		<conf_installation_prefix>/etc/storm</conf_installation_prefix>
 		<module_name>gridhttps-plugin</module_name>
 		<stormBackendVersion>1.11.0</stormBackendVersion>
+		<local_repository_dir>/tmp/m2-repository</local_repository_dir>
 	</properties>
 	<build>
 		<finalName>${project.artifactId}</finalName>
@@ -107,7 +108,7 @@
 								<BackendVersion>${stormBackendVersion}</BackendVersion>
 								<MavenProfile>${project.activeProfiles[0].id}</MavenProfile>
 <!--								<StormBackendServerVersion>${storm-backend-server.version}</StormBackendServerVersion> -->
-<!--								<MavenRepositoryDir>${settings.localRepository}</MavenRepositoryDir> -->
+								<MavenLocalRepository>-Dmaven.repo.local=${local_repository_dir}</MavenLocalRepository>
 							</properties>
 						</configuration>
 					</execution>
