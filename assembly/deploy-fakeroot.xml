@@ -7,7 +7,7 @@
 	</formats>
 	<id>fakeroot</id>
 	<fileSets>
-			<fileSet>
+		<fileSet>
 			<directory>target</directory>
 			<outputDirectory>${jar_installation_prefix}/${artifactId}</outputDirectory>
 			<includes>
