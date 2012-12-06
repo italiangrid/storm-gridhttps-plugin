@@ -1,10 +1,10 @@
 ifndef JAVA_HOME
   $(error JAVA_HOME is undefined)
 endif
-release:=1
+
 version:=$(shell mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression="project.version" | grep -v '\[' | tr -d ' ')
-platform:=sl5
-age=$(release).$(platform)
+release:=1
+
 # mvn settings mirror conf url
 mirror_conf_url=https://raw.github.com/italiangrid/build-settings/master/maven/cnaf-mirror-settings.xml
 
@@ -12,6 +12,8 @@ mirror_conf_url=https://raw.github.com/italiangrid/build-settings/master/maven/c
 mirror_conf_name=mirror-settings.xml
 
 mvn_settings=-s $(mirror_conf_name)
+
+local_maven_repository:=/tmp/m2-repository
 
 all: clean bin_rpm
 
@@ -21,10 +23,10 @@ src_rpm: build_sources
 	rpmbuild -bs --define "_topdir ${PWD}/rpmbuild" target/spec/storm-gridhttps-plugin.spec
 
 build_sources: prepare
-	mvn ${mvn_settings} -Drelease=$(age) -Dmaven_settings="$(mvn_settings)" process-sources
+	mvn ${mvn_settings} -Drelease=$(release) -Dmaven_settings="$(mvn_settings)" -Dlocal_repository_dir="${local_maven_repository}" -P EMI process-sources
 
 bin_rpm: src_rpm
-	rpmbuild --rebuild --define "_topdir ${PWD}/rpmbuild" rpmbuild/SRPMS/storm-gridhttps-plugin-${version}-$(age).src.rpm
+	rpmbuild --rebuild --define "_topdir ${PWD}/rpmbuild" rpmbuild/SRPMS/storm-gridhttps-plugin-${version}-$(release).src.rpm
 
 clean:
 	rm -rf rpmbuild
