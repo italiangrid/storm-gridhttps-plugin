@@ -101,17 +101,10 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
     @Override
     public void grantGroupPermission(LocalFile localFile, LocalUser localUser, FilesystemPermission permission)
     {
-        grantServiceGroupPermission(localFile, permission);
-    }
-
-
-    @Override
-    public void grantServiceGroupPermission(LocalFile localFile, FilesystemPermission permission)
-    {
         localFile.grantGroupPermission(serverLocalUser, permission);
-        log.debug("Granted group permission " + permission.toString() + " on file " + localFile.toString() + " to service group " + serverLocalUser.toString());
+        log.debug("Granted group permission " + permission.toString() + " on file " + localFile.toString() + " to group " + localUser.toString());
     }
-    
+
 
     /*
      * (non-Javadoc)
@@ -121,15 +114,8 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
     @Override
     public void grantUserPermission(LocalFile localFile, LocalUser localUser, FilesystemPermission permission)
     {
-        grantServiceUserPermission(localFile, permission);
-    }
-    
-    
-    @Override
-    public void grantServiceUserPermission(LocalFile localFile, FilesystemPermission permission)
-    {
         localFile.grantUserPermission(serverLocalUser, permission);
-        log.debug("Granted user permission " + permission.toString() + " on file " + localFile.toString() + " to service user " + serverLocalUser.toString());
+        log.debug("Granted user permission " + permission.toString() + " on file " + localFile.toString() + " to user " + localUser.toString());
     }
 
 
@@ -375,5 +361,4 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
         httpsPath = output.trim();
         return httpsPath;
     }
-
 }
