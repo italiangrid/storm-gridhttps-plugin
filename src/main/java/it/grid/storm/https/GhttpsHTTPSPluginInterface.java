@@ -238,7 +238,7 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
     public String mapLocalPath(String serverHost, String localAbsolutePath) throws HTTPSPluginException
     {
         log.debug("Mapping local path " + localAbsolutePath + " to gridhttp relative URL");
-        URI uri = buildMapperServiceUri(localAbsolutePath);
+        URI uri = buildMapperServiceUri(serverHost, localAbsolutePath);
         log.debug("Mapping Service call uri = " + uri.toString());
         HttpGet httpget = new HttpGet(uri);
         HttpClient httpclient = new DefaultHttpClient();
@@ -363,7 +363,7 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
             case HTTP:
                 try
                 {
-                    uri = new URI(protocol, null, hostname, port, "/", null, null);
+                    uri = new URI(protocol.name().toLowerCase(), null, hostname, port, "/", null, null);
                 }
                 catch (URISyntaxException e)
                 {
@@ -384,7 +384,8 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
                 }                
                 break;
             default:
-                break;
+                log.error("Unable to build a service stastus uri for the unmanaged protocol " + protocol);
+                throw new HTTPSPluginException("Unmanaged protocol " + protocol);
         }
         
         log.debug("Server root uri = " + uri.toString());
