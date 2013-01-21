@@ -419,7 +419,7 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
         {
             return ServiceStatus.RUNNING;
         }
-        return ServiceStatus.UNEXPECTED_BEHAVIOUR
+        return ServiceStatus.UNEXPECTED_BEHAVIOUR;
     }
 
 }
