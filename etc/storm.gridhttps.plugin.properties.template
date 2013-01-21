@@ -1,6 +1,6 @@
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #    storm-gridhttps-plugin-properties   
-#      version 1.0
+#      version 1.1
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #
 #   This file contains properties that govern the operation of StoRM gridhttps plugin. 
@@ -20,8 +20,16 @@
 ##        remember that the parameters tagged as YAIM will be overwrite at every  
 ##        reconfiguration done with YAIM, so if you want change some parameters 
 ##        you should use the YAIM configuration files:
-##           <siteinfo_dir>/services/ig-se_storm_gridhttps-plugin  (or equivalent)
+##           <siteinfo_dir>/services/se_storm_backend  (or equivalent)
 ## 
+
+# ============================
+# StoRM Gridhttps Mapping service
+# ============================ 
+# <!! managed by YAIM; please read the above NOTE !!>
+# The port on which the Gridhttps server exposes the Mapping service  
+#Default=8086
+#gridhttps.mapping-service.port=8086
 
 # ============================
 # StoRM Gridhttps server user 
@@ -30,8 +38,8 @@
 #   <!! managed by YAIM; please read the above NOTE !!>
 # The User ID associated to the user
 #Default=0 (root) 
-gridhttps.server.user.uid=
+gridhttps.server.user.uid=0
 
 # The primary Group ID associated to the user
 #Default=0 (root) 
-gridhttps.server.user.gid=   
+gridhttps.server.user.gid=0

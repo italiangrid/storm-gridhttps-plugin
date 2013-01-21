@@ -29,6 +29,13 @@ import org.slf4j.LoggerFactory;
 public class Configurator
 {
 
+    private static final int DEFAULT_MAPPING_PORT = 8086;
+
+    private static final String SERVER_USER_UID_KEY = "gridhttps.server.user.uid";
+    
+    private static final String SERVER_USER_GID_KEY = "gridhttps.server.user.gid";
+    
+    private static final String MAPPING_SERVICE_PORT_KEY = "gridhttps.mapping-service.port";
 
     private static Logger logger = LoggerFactory.getLogger(Configurator.class);
     /**
@@ -56,6 +63,7 @@ public class Configurator
         {
             getServerUserUID();
             getServerUserGID();
+            getMappingPort();
         }
         catch (ConfigurationException e)
         {
@@ -78,7 +86,7 @@ public class Configurator
         {
             if (config.getReloadingStrategy().reloadingRequired())
             {
-                logger.info("Reinitializing the MyConfigurator from the stored configuration file " + config.getFile().getAbsolutePath());
+                logger.info("Reinitializing the Configurator from the stored configuration file " + config.getFile().getAbsolutePath());
                 init(config.getFile().getAbsolutePath());
             }
         }
@@ -95,8 +103,8 @@ public class Configurator
         if (config != null)
         {
             tryReinit();
-            uid = getIntProperty("gridhttps.server.user.uid");
-            if (uid < 0)
+            uid = getIntProperty(SERVER_USER_UID_KEY);
+            if (uid == null)
             {
                 logger.error("Unable to retrieve a correct server user UID from the configuration file \'" + config.getFileName()
                         + "\'");
@@ -125,8 +133,8 @@ public class Configurator
         if (config != null)
         {
             tryReinit();
-            gid = getIntProperty("gridhttps.server.user.gid");
-            if (gid < 0)
+            gid = getIntProperty(SERVER_USER_GID_KEY);
+            if (gid == null)
             {
                 logger.error("Unable to retrieve a correct server user GID from the configuration file \'" + config.getFileName()
                         + "\'");
@@ -144,6 +152,30 @@ public class Configurator
         return gid.intValue();
     }
 
+    public static int getMappingPort() throws ConfigurationException
+    {
+        logger.debug("Requested the retrieving of the server mapping-service port");
+        Integer port = null;
+        if (config != null)
+        {
+            tryReinit();
+            port = getIntProperty(MAPPING_SERVICE_PORT_KEY);
+            if (port == null)
+            {
+                logger.info("No mapping-service port specified in the configuration file \'" + config.getFileName() + "\', using default " + DEFAULT_MAPPING_PORT);
+                port = DEFAULT_MAPPING_PORT;
+            }
+        }
+        else
+        {
+            logger.error("Unable to retrieve the mapping-service port, Configurator"
+                    + " not initialized! Do Configurator.init(File propertiesFile) first");
+            throw new ConfigurationException("Unable to retrieve the mapping-service port, Configurator not"
+                    + " initialized! Do Configurator.init(File propertiesFile) first");
+        }
+        return port.intValue();
+    }
+    
     /**
      * Retrieves the value of the property specified as a String
      * 
@@ -227,9 +259,9 @@ public class Configurator
      * @return
      * @throws ConfigurationException
      */
-    private static int getIntProperty(String property) throws ConfigurationException
+    private static Integer getIntProperty(String property) throws ConfigurationException
     {
-        int value = -1;
+        Integer value = null;
         if (config.containsKey(property))
         {
             try
@@ -251,7 +283,7 @@ public class Configurator
                 throw new ConfigurationException("The int property " + property + " is not correctly specified");
             }
         }
-        if (value < 0)
+        if (value == null)
         {
             logger.info("No " + property + " specified in the configuration file \'" + config.getFileName() + "\'.");
         }
@@ -261,4 +293,5 @@ public class Configurator
         }
         return value;
     }
+
 }

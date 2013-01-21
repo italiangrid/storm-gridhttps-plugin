@@ -26,15 +26,18 @@ import org.slf4j.LoggerFactory;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpHead;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import it.grid.storm.config.Configuration;
 import it.grid.storm.filesystem.FilesystemPermission;
 import it.grid.storm.filesystem.LocalFile;
 import it.grid.storm.griduser.LocalUser;
@@ -51,10 +54,9 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
 
 
     private final Logger log = LoggerFactory.getLogger(GhttpsHTTPSPluginInterface.class);
-    private String serverHost;
-    private int serverPort;
     private int serverUserUID;
     private int serverUserGID;
+    private int serverMappingPort;
     private LocalUser serverLocalUser;
 
 
@@ -73,10 +75,9 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
         }
         try
         {
-            serverHost = Configuration.getInstance().getGridhttpsServerHost();
-            serverPort = Configuration.getInstance().getGridhttpsServerPort();
             serverUserUID = Configurator.getServerUserUID();
             serverUserGID = Configurator.getServerUserGID();
+            serverMappingPort = Configurator.getMappingPort();
         }
         catch (ConfigurationException e)
         {
@@ -230,32 +231,11 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
                 + " . Nothing to do, permissions are moved with the file");
     }
 
-
-    /* (non-Javadoc)
-     * @see it.grid.storm.https.HTTPSPluginInterface#getServiceHost()
-     */
-    @Override
-    public String getServiceHost()
-    {
-        return serverHost;
-    }
-
-
-    /* (non-Javadoc)
-     * @see it.grid.storm.https.HTTPSPluginInterface#getServicePort()
-     */
-    @Override
-    public Integer getServicePort()
-    {
-        return new Integer(serverPort);
-    }
-
-
     /* (non-Javadoc)
      * @see it.grid.storm.https.HTTPSPluginInterface#MapLocalPath(java.lang.String)
      */
     @Override
-    public String MapLocalPath(String localAbsolutePath) throws HTTPSPluginException
+    public String mapLocalPath(String serverHost, String localAbsolutePath) throws HTTPSPluginException
     {
         log.debug("Mapping local path " + localAbsolutePath + " to gridhttp relative URL");
         URI uri = buildMapperServiceUri(localAbsolutePath);
@@ -339,22 +319,20 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
         return URLPath;
     }
 
-
     /**
      * @param localAbsolutePath
      * @return
      * @throws HTTPSPluginException
      */
-    private URI buildMapperServiceUri(String localAbsolutePath) throws HTTPSPluginException
+    private URI buildMapperServiceUri(String serverHost, String localAbsolutePath) throws HTTPSPluginException
     {
         log.debug("Encoding parameters");
-        String path = MapperServiceConstants.SERVICE_PATH;
         List<NameValuePair> qparams = new ArrayList<NameValuePair>();
         qparams.add(new BasicNameValuePair(MapperServiceConstants.RESOURCE_MAPPING_PATH_KEY, localAbsolutePath));
         URI uri;
         try
         {
-            uri = new URI("http", null, serverHost, serverPort, path, URLEncodedUtils.format(qparams, "UTF-8"), null);
+            uri = new URI("http", null, serverHost, serverMappingPort, MapperServiceConstants.SERVICE_PATH, URLEncodedUtils.format(qparams, "UTF-8"), null);
         }
         catch (URISyntaxException e)
         {
@@ -363,7 +341,6 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
         }
         return uri;
     }
-
 
     /**
      * @param output
@@ -374,6 +351,75 @@ public class GhttpsHTTPSPluginInterface implements HTTPSPluginInterface
         String httpsPath = "";
         httpsPath = output.trim();
         return httpsPath;
+    }
+    
+    @Override
+    public ServiceStatus getServiceStatus(String hostname, int port, Protocol protocol) throws HTTPSPluginException
+    {
+        log.debug("Checking server status for : " + protocol + hostname + ":" + port);
+        URI uri;
+        switch (protocol)
+        {
+            case HTTP:
+                try
+                {
+                    uri = new URI(protocol, null, hostname, port, "/", null, null);
+                }
+                catch (URISyntaxException e)
+                {
+                    log.error("Unable to create Server root URI. URISyntaxException " + e.getLocalizedMessage());
+                    throw new HTTPSPluginException("Unable to create Server root URI");
+                }                
+                break;
+            case HTTPS:
+                //TODO move to querying the https service using local host certificate and truststore certificate 
+                try
+                {
+                    uri = new URI("http", null, hostname, serverMappingPort, MapperServiceConstants.SERVICE_PATH, null, null);
+                }
+                catch (URISyntaxException e)
+                {
+                    log.error("Unable to create Server root URI. URISyntaxException " + e.getLocalizedMessage());
+                    throw new HTTPSPluginException("Unable to create Server root URI");
+                }                
+                break;
+            default:
+                break;
+        }
+        
+        log.debug("Server root uri = " + uri.toString());
+        HttpHead httphead = new HttpHead(uri);
+        HttpClient httpclient = new DefaultHttpClient();
+        
+        HttpResponse httpResponse;
+        try
+        {
+            httpResponse = httpclient.execute(httphead);
+        }
+        catch (ClientProtocolException e)
+        {
+            log.error("Error executing http call. ClientProtocolException " + e.getLocalizedMessage());
+            throw new HTTPSPluginException("Error contacting Mapping Service.");
+        }
+        catch (IOException e)
+        {
+            log.error("Error executing http call. IOException " + e.getLocalizedMessage());
+            return ServiceStatus.NOT_RESPONDING; 
+        }
+        
+        StatusLine status = httpResponse.getStatusLine();
+        if (status == null)
+        {
+            // never return null
+            log.error("Unexpected error! response.getStatusLine() returned null!");
+            throw new HTTPSPluginException("Unexpected error! response.getStatusLine() returned null! Please contact StoRM support");
+        }
+        int httpCode = status.getStatusCode();
+        if(httpCode == HttpStatus.SC_OK)
+        {
+            return ServiceStatus.RUNNING;
+        }
+        return ServiceStatus.UNEXPECTED_BEHAVIOUR
     }
 
 }
