@@ -1,4 +1,4 @@
-The StoRM BackEnd Service
+The StoRM GridHTTPs Plugin
 ===============================
 
 StoRM GridHTTPs Plugin is a plugin for StoRM BackEnd that allows the BackEnd component 
