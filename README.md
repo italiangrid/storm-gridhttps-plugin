@@ -21,6 +21,11 @@ Build command:
 make all
 ```
 
+It could be necessary to set JAVA_HOME environment variable, for example:
+<pre>
+export JAVA_HOME="/usr/lib/jvm/java"
+</pre>
+
 # Contact info
 
 If you have problems, questions, ideas or suggestions, please contact us at
