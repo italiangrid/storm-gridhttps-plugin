@@ -31,6 +31,12 @@ git clone https://github.com/italiangrid/storm-gridhttps-plugin.git --branch GHT
 cd storm-gridhttps-plugin
 </pre>
 
+Download and local-install storm-backend-server jar file (X stands for the latest or desired version):
+<pre>
+wget http://storm.forge.cnaf.infn.it/repository/internal/backend/storm-backend-server.jar -O storm-backend-server.jar
+mvn install:install-file -DgroupId=emi.storm -DartifactId=storm-backend-server -Dversion=X -Dpackaging=jar -Dfile=storm-backend-server.jar
+</pre>
+
 Build commands:
 <pre>
 wget --no-check-certificate https://raw.github.com/italiangrid/build-settings/master/maven/cnaf-mirror-settings.xml -O mirror-settings.xml
